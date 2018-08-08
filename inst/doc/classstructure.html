@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Andy Krause" />
+
+<meta name="date" content="2018-08-05" />
+
+<title>Classes in hpiR</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Classes in <code>hpiR</code></h1>
+<h4 class="author"><em>Andy Krause</em></h4>
+<h4 class="date"><em>2018-08-05</em></h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This vignette explains the various classes of objects and data used in the <code>hpiR</code> package. By executing the code in this vignette you can create examples of all classes of objects used in the <code>hpiR</code> package.</p>
+</div>
+<div id="class-structures" class="section level2">
+<h2>Class Structures</h2>
+<p>The table below shows the basic information on the various <strong>S3</strong> classes used in the package. The naming convention of classes is such that prefixes indicate the domain (or the type) of the information contained in the object. The major domains are:</p>
+<p><br></p>
+<ul>
+<li><strong>“series”</strong> = objects refering to information relevant to the entire hpi series (a set of hpi collections)</li>
+<li><strong>“hpi”</strong> = objects refering to information relevant to the entire hpi collection</li>
+<li><strong>“index”</strong> = objects refering to information relevant only to the index itself</li>
+<li><strong>“rt”</strong> or <strong>“hed”</strong> = objects with information specific to a particular index approach (<strong>“rt”</strong> for repeat transaction and <strong>“hed”</strong> for hedonic model)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
+<ul>
+<li>Suffixes of these classes currently include <strong>“data”</strong> and <strong>“model”</strong></li>
+</ul></li>
+<li><strong>“plot”</strong> = objects containing plot objects.</li>
+</ul>
+<p>The <code>hpi</code> collection object is the “core” unit of the <code>hpiR</code> package. The object will contain all the information, temporary objects (data, models, etc.) and analysis about a single house price index.</p>
+<p>The <code>serieshpi</code> object is a “super-unit” that contains multiple house price indexes within it. Indexes within a series share the same data, modeling approach and parameters; they differ only in the length of the indexes. Additionally there are two types of analyses that can only be applied to series: forecast accuracy (<code>calcForecastError()</code>) and revision (<code>calcRevision()</code>). Also note that in an <code>serieshpi</code> object the data objects are moved out of the <code>hpi</code> objects and into the <code>serieshpi</code> object to avoid duplication of data storage.</p>
+<p>The table below shows the various classes of objects used with <code>hpiR</code>, their type, what they inherit from, what function creates them and a short desription. A tilde (<strong>~</strong>) infront of the inherits value signifies that some of the components of the object inherit from that class, but not all.</p>
+<p><br></p>
+<table>
+<colgroup>
+<col width="7%"></col>
+<col width="9%"></col>
+<col width="12%"></col>
+<col width="10%"></col>
+<col width="60%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Type</th>
+<th align="left">Class</th>
+<th align="center">Inherits</th>
+<th align="center">Created by</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>Super</strong></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><code>serieshpi</code></td>
+<td align="center"><em>many</em></td>
+<td align="center"><code>createSeries()</code></td>
+<td align="left">A series of progressively longer indexes</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Core</strong></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><code>hpi</code></td>
+<td align="center"><em>many</em></td>
+<td align="center"><code>**Index()</code> wrappers</td>
+<td align="left">Unified house price index collection object containing data, model and index as well as additional analytics that can be added to it</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><code>hpiaccuracy</code></td>
+<td align="center"><code>data.frame</code></td>
+<td align="center"><code>calcAccuracy()</code></td>
+<td align="left">Accuracy of the index</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Data</strong></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><code>hpidata</code></td>
+<td align="center"><code>data.frame</code></td>
+<td align="center"><code>dateToPeriod()</code></td>
+<td align="left">Transaction data.frame with dates converted to relative periods</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><code>rtdata</code></td>
+<td align="center"><code>hpidata</code>, <code>data.frame</code></td>
+<td align="center"><code>rtCreateTrans()</code></td>
+<td align="left">Data.frame of repeat transactions with standardized field names</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><code>heddata</code></td>
+<td align="center"><code>hpidata</code>, <code>data.frame</code></td>
+<td align="center"><code>hedCreatTrans()</code></td>
+<td align="left">Data.frame of transactions with some standardized field names for use in hedonic model approach</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Model</strong></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><code>hpimodel</code></td>
+<td align="center">Many (ex. <code>lm</code>, <code>rlm</code>)</td>
+<td align="center"><code>hpiModel()</code></td>
+<td align="left">Flexible list of model results</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><code>rtmodel</code></td>
+<td align="center">Many (ex. <code>lm</code>, <code>rlm</code>)</td>
+<td align="center"><code>rtModel()</code></td>
+<td align="left">List of repeat transaction model results</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><code>hedmodel</code></td>
+<td align="center">Many (ex. <code>lm</code>, <code>rlm</code>)</td>
+<td align="center"><code>hedModel()</code></td>
+<td align="left">List of hedonic model results</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Index</strong></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><code>hpiindex</code></td>
+<td align="center">~<code>ts</code></td>
+<td align="center"><code>modelToIndex()</code></td>
+<td align="left">List of index information. <code>$index</code> slot is a <code>ts</code> object</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><code>indexsmooth</code></td>
+<td align="center"><code>ts</code></td>
+<td align="center"><code>smoothIndex()</code></td>
+<td align="left">Smoothed index</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><code>indexvolatility</code></td>
+<td align="center">NONE</td>
+<td align="center"><code>calcVolatility()</code></td>
+<td align="left">List of rolling, mean and median index volatility</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Series</strong></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><code>seriesrevision</code></td>
+<td align="center">NONE</td>
+<td align="center"><code>calcRevision()</code></td>
+<td align="left">List of the period, mean and median revision</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><code>seriesaccuracy</code></td>
+<td align="center"><code>hpiaccuracy</code>, <code>data.frame</code></td>
+<td align="center"><code>calcSeriesAccuracy()</code></td>
+<td align="left">Accuracy of the series</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Visualization</strong></td>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><code>plotindex</code></td>
+<td align="center"><code>gg</code>, <code>ggplot</code></td>
+<td align="center"><code>plot.hpiindex()</code>, <code>plot.hpi</code></td>
+<td align="left">Plotting object for an index</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><code>plotseries</code></td>
+<td align="center"><code>gg</code>, <code>ggplot</code></td>
+<td align="center"><code>plot.serieshpi()</code></td>
+<td align="left">Plotting object for an index series</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><code>plotrevision</code></td>
+<td align="center"><code>gg</code>, <code>ggplot</code></td>
+<td align="center"><code>plot.seriesrevision()</code></td>
+<td align="left">Plotting object for revision statistics</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><code>plotaccuracy</code></td>
+<td align="center"><code>gtable</code>, <code>gTree</code>, <code>grob</code>, <code>gDesc</code></td>
+<td align="center"><code>plot.hpiaccuracy()</code>, <code>plot.seriesaccuracy</code></td>
+<td align="left">Plotting object for accuracy results</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><code>plotvolatility</code></td>
+<td align="center"><code>gg</code>, <code>ggplot</code></td>
+<td align="center"><code>plot.indexvolatility()</code></td>
+<td align="left">Plotting object for index volatility</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="examples-and-explanation" class="section level2">
+<h2>Examples And Explanation</h2>
+<p>Small examples of any of the classes in the table above are available in the <code>hpiR</code> package as pre-loaded data. Use <code>data(ex_'name of class')</code> to access. Ex: <code>data(ex_hpidata)</code>.</p>
+<div id="loading" class="section level3">
+<h3>Loading</h3>
+<p>Begin by loading the <code>hpiR</code> package. It is assumed that you’ve followed the instructions in the <strong>“introduction”</strong> vignette in order to obtain the package.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">  </a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="kw">library</span>(hpiR)</a></code></pre></div>
+<p>Next, load the example dataset of Seattle house transactions into your R session. We’ll limit to just the central city (<strong>area</strong> equal to 13, 14, and 15). This can also be accessed via <code>data(ex_sales)</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="co"># Load all sales</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="kw">data</span>(seattle_sales)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="co"># Create a smaller sample of sales</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">  ex_sales &lt;-<span class="st"> </span>seattle_sales <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="st">    </span>dplyr<span class="op">::</span><span class="kw">filter</span>(., area <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">15</span>))</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">  <span class="co"># Or just load it</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">  <span class="kw">data</span>(ex_sales)</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">  </a></code></pre></div>
+</div>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<div id="hpidata-objects" class="section level4">
+<h4>‘hpidata’ objects</h4>
+<p><code>hpidata</code> objects inherit from <code>data.frame</code>, but are very flexible and the collection of fields that may be in these objects is solely dependent on the data being used. The only requirements for creating an <code>hpidata</code> object is that there must be an R formatted <strong>date</strong> field that can be turned into a period field.</p>
+<p>The <code>dateToPeriod()</code> function will create an <code>hpidata</code> object by converting the date into a period. The only difference between the <code>hpidata</code> object and the original data.frame is the addition of <strong>trans_date</strong> and <strong>trans_period</strong> columns and the <strong>periodicity</strong>, <strong>min_date</strong>, <strong>max_date</strong> and <strong>period_table</strong> attributes.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">  ex_hpidata &lt;-<span class="st"> </span><span class="kw">dateToPeriod</span>(<span class="dt">trans_df =</span> ex_sales,</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">                             <span class="dt">date =</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">                             <span class="dt">periodicity =</span> <span class="st">'monthly'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="kw">class</span>(ex_hpidata)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="kw">str</span>(ex_hpidata)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  </a></code></pre></div>
+</div>
+<div id="approach-based-data-objects" class="section level4">
+<h4>Approach-based data objects</h4>
+<p>Each of the index creation approaches (currently just <strong>rt</strong> and <strong>hed</strong>) will have their own data object classes that include the necessary fields and structures for these approach types. The name format here is “xxdata”&quot;, where ‘xx’ is the approach abbreviation.</p>
+<p>The <code>rtdata</code> object holds repeat transactions and contains the eight standard fields shown below as well as the <strong>period_table</strong> attribute.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  ex_rtdata &lt;-<span class="st"> </span><span class="kw">rtCreateTrans</span>(<span class="dt">trans_df =</span> ex_hpidata,</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">                             <span class="dt">prop_id =</span> <span class="st">'pinx'</span>,</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">                             <span class="dt">trans_id =</span> <span class="st">'sale_id'</span>,</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">                             <span class="dt">price =</span> <span class="st">'sale_price'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="kw">class</span>(ex_rtdata)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">  <span class="kw">str</span>(ex_rtdata)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">  </a></code></pre></div>
+<p>The <code>heddata</code> object requires no changes from the original <code>hpidata</code> object and looks the same, with the exception of field standardization (<strong>pinx</strong> is now <strong>prop_id</strong>, <strong>sale_id</strong> is now <strong>trans_id</strong>, <strong>sale_price</strong> is now <strong>price</strong>, <strong>sale_date</strong> is now <strong>date</strong>. )</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">  ex_heddata &lt;-<span class="st"> </span><span class="kw">hedCreateTrans</span>(<span class="dt">trans_df =</span> ex_sales,</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">                               <span class="dt">prop_id =</span> <span class="st">'pinx'</span>,</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">                               <span class="dt">trans_id =</span> <span class="st">'sale_id'</span>,</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">                               <span class="dt">price =</span> <span class="st">'sale_price'</span>,</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">                               <span class="dt">date =</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">                               <span class="dt">periodicity =</span> <span class="st">'monthly'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="kw">class</span>(ex_heddata)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">  </a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">    <span class="kw">str</span>(ex_heddata)</a></code></pre></div>
+</div>
+</div>
+<div id="modeling" class="section level3">
+<h3>Modeling</h3>
+<p>Results from modeling the data prior to creating indexes is stored in <code>hpimodel</code> objects. These objects contain eight standard slots, shown below. The slots are standardized across approaches, with the exception of the <code>model_obj</code> slot which will contain an object that is specific to the approach being used to estimate the index.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">  </a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">  ex_hpimodel &lt;-<span class="st"> </span><span class="kw">hpiModel</span>(<span class="dt">hpi_df =</span> ex_rtdata,</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">                          <span class="dt">estimator =</span> <span class="st">'base'</span>,</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">                          <span class="dt">log_dep =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">   <span class="kw">class</span>(ex_hpimodel)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="kw">str</span>(ex_hpimodel, <span class="dt">max.level=</span><span class="dv">1</span>)</a></code></pre></div>
+<p>Below we see an example of a <code>model_obj</code> from a repeat transactions model. This is very similar to what you’d get from a call to a linear model (<code>lm(...)</code>)</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">  ex_rtmodel &lt;-<span class="st"> </span>ex_hpimodel<span class="op">$</span>model_obj</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">  <span class="kw">class</span>(ex_rtmodel)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">  <span class="kw">str</span>(ex_rtmodel, <span class="dt">max.level=</span><span class="dv">1</span>, <span class="dt">give.attr=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<p>We also show an example of a <code>model_obj</code> from a hedonic price method, again similar to an <code>lm(...)</code> output.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">  ex_hedmodel &lt;-<span class="st"> </span><span class="kw">hpiModel</span>(<span class="dt">hpi_df =</span> ex_heddata,</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">                          <span class="dt">estimator =</span> <span class="st">'base'</span>,</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">                          <span class="dt">dep_var =</span> <span class="st">'price'</span>,</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">                          <span class="dt">ind_var =</span> <span class="kw">c</span>(<span class="st">'tot_sf'</span>, <span class="st">'beds'</span>, <span class="st">'baths'</span>),</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5">                          <span class="dt">log_dep =</span> <span class="ot">TRUE</span>)[[<span class="st">&quot;model_obj&quot;</span>]]</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">  <span class="kw">class</span>(ex_hedmodel)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">    <span class="kw">str</span>(ex_hedmodel, <span class="dt">max.level=</span><span class="dv">1</span>, <span class="dt">give.attr=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+</div>
+<div id="indexes-and-smoothing" class="section level3">
+<h3>Indexes and Smoothing</h3>
+<p>The <code>modelToIndex()</code> function will take an <code>hpimodel</code> object and turn it into an <code>hpiindex</code> object. <code>hpiindex</code> objects contain five standard slots.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">  ex_hpiindex &lt;-<span class="st"> </span><span class="kw">modelToIndex</span>(<span class="dt">model_obj =</span> ex_hpimodel)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">  <span class="kw">class</span>(ex_hpiindex)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">  <span class="kw">str</span>(ex_hpiindex, <span class="dt">max.level=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">  </a></code></pre></div>
+<p>If we want to add a smoothed index to this object, we use the <code>smoothIndex()</code> function. In its default state, this function just return a simple <code>ts</code> (time-series) object of the smoothed index.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">  ex_smoothindex &lt;-<span class="st"> </span><span class="kw">smoothIndex</span>(ex_hpiindex)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">  <span class="kw">class</span>(ex_smoothindex)</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">  <span class="kw">str</span>(ex_smoothindex)</a></code></pre></div>
+<p>To add it directly to the <code>hpiindex</code> object, we add the <strong>“in_place = TRUE”</strong> argument which will add it to the <strong>$smooth</strong> slot in the <code>hpiindex</code> object. Note that the class of <strong>temp_index</strong> stays the same (<code>hpiindex</code>), only the <strong>$smooth</strong> slot is added with an object of class <code>smoothindex</code> (inheriting from <code>ts</code>).</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">  temp_index &lt;-<span class="st"> </span><span class="kw">smoothIndex</span>(ex_hpiindex, <span class="dt">in_place =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">  <span class="kw">class</span>(temp_index)</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">  </a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">    <span class="kw">class</span>(temp_index<span class="op">$</span>smooth)</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">    </a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">    <span class="kw">str</span>(temp_index)</a></code></pre></div>
+<p>If you want to store plots of <code>hpiindex</code> objects, they are returned as <code>plotindex</code> objects, inheriting from <code>gg</code> and <code>ggplot</code> (from the <code>ggplot2</code> package)</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">  ex_plotindex &lt;-<span class="st"> </span><span class="kw">plot</span>(ex_hpiindex)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">  <span class="kw">class</span>(ex_plotindex)</a></code></pre></div>
+</div>
+<div id="wrapper" class="section level3">
+<h3>Wrapper</h3>
+<p>The index level wrappers (<code>rtIndex()</code> and <code>hedIndex()</code> – more to come) combine the above steps – data prep, modeling and index creation – into a single function, the output of which is an hpi collection, or simply, an <code>hpi</code> object. Directly after creation with a wrapper this object is a list of:</p>
+<ol style="list-style-type: decimal">
+<li>A data object (<code>hpidata</code>)</li>
+<li>A model object (<code>hpimodel</code>)<br />
+</li>
+<li>An index object (<code>hpiindex</code>)</li>
+</ol>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">  ex_hpi &lt;-<span class="st"> </span><span class="kw">rtIndex</span>(<span class="dt">trans_df =</span> ex_rtdata,</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">                    <span class="dt">estimator =</span> <span class="st">'robust'</span>,</a>
+<a class="sourceLine" id="cb33-3" data-line-number="3">                    <span class="dt">log_dep =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4">                    <span class="dt">trim_model =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb33-5" data-line-number="5">                    <span class="dt">smooth =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">  <span class="kw">class</span>(ex_hpi)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">  <span class="kw">str</span>(ex_hpi, <span class="dt">max.level=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"> </a></code></pre></div>
+</div>
+<div id="analyzing-indexes" class="section level3">
+<h3>Analyzing Indexes</h3>
+<div id="volatility" class="section level4">
+<h4>Volatility</h4>
+<p>Index volatility can be calculated by providing an <code>hpiindex</code> object to the <code>calcVolatility()</code> function. The result is an object of class <code>indexvolatility</code>, containing three vector objects as well as two attributes indicating the original index and the window used.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">  ex_indexvolatility &lt;-<span class="st"> </span><span class="kw">calcVolatility</span>(<span class="dt">index =</span> ex_hpiindex,</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">                                       <span class="dt">window =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">  <span class="kw">class</span>(ex_indexvolatility)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">  <span class="kw">str</span>(ex_indexvolatility)</a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">  </a></code></pre></div>
+<p>The <code>indexvolatility</code> object can be nested within an <code>hpiindex</code> object by setting <strong>in_place = TRUE</strong>.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">  temp_index &lt;-<span class="st"> </span><span class="kw">calcVolatility</span>(<span class="dt">index =</span> ex_hpiindex,</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">                               <span class="dt">window =</span> <span class="dv">3</span>, </a>
+<a class="sourceLine" id="cb39-3" data-line-number="3">                               <span class="dt">in_place =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">  <span class="kw">class</span>(temp_index)</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">  <span class="kw">class</span>(temp_index<span class="op">$</span>volatility)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">  <span class="kw">str</span>(temp_index, <span class="dt">max.level=</span><span class="dv">1</span>, <span class="dt">give.attr=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<p>Volatility plots can be saved in objects of class <code>plotvolatility</code>, inheriting from <code>gg</code> and <code>ggplot</code></p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">  ex_plotvolatility &lt;-<span class="st"> </span><span class="kw">plot</span>(ex_indexvolatility)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">  <span class="kw">class</span>(ex_plotvolatility)</a>
+<a class="sourceLine" id="cb44-2" data-line-number="2"> </a></code></pre></div>
+</div>
+<div id="accuracy-fitting" class="section level4">
+<h4>Accuracy (Fitting)</h4>
+<p>Calculating an index’s (fitting) accuracy through either <strong>insample</strong> or <strong>kfold</strong> (out of sample) methods via <code>calcAccuracy()</code> returns an object of class <code>hpiaccuracy</code>, inheriting from <code>data.frame</code>. These object contain four fields, shown below. In <code>hpiaccuracy</code> objects, each observation is that is being tested for accuracy is only found once. This differs from the <code>seriesaccuracy</code> objects which are discussed later in which an observation may be tested against an index for each index in the series and therefore may appear multiple times in the <code>seriesaccuracy</code> object.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">  ex_hpiaccuracy &lt;-<span class="st"> </span><span class="kw">calcAccuracy</span>(<span class="dt">hpi_obj =</span> ex_hpi,</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">                                 <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3">                                 <span class="dt">test_method =</span> <span class="st">'insample'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">  <span class="kw">class</span>(ex_hpiaccuracy)</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">  <span class="kw">str</span>(ex_hpiaccuracy)</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2">  </a></code></pre></div>
+<p><code>hpiaccuracy</code> objects can be added directly to an <code>hpi</code> object with the <strong>in_place = TRUE</strong> argument.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">  temp_hpi &lt;-<span class="st"> </span><span class="kw">calcAccuracy</span>(<span class="dt">hpi_obj =</span> ex_hpi,</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">                           <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">                           <span class="dt">test_method =</span> <span class="st">'insample'</span>,</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">                           <span class="dt">in_place =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">  <span class="kw">class</span>(temp_hpi)</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">  <span class="kw">class</span>(temp_hpi<span class="op">$</span>accuracy)</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">  <span class="kw">str</span>(temp_hpi, <span class="dt">max.level=</span><span class="dv">1</span>, <span class="dt">give.attr=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<p>An <code>hpiaccuracy</code> object can be plotted and saved to a <code>plotaccuracy</code> object, but need the <code>return_plot=TRUE</code> argument to return to an object.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">  ex_plotaccuracy &lt;-<span class="st"> </span><span class="kw">plot</span>(ex_hpiaccuracy, <span class="dt">return_plot =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">  <span class="kw">class</span>(ex_plotaccuracy)</a>
+<a class="sourceLine" id="cb53-2" data-line-number="2"> </a></code></pre></div>
+</div>
+<div id="series" class="section level4">
+<h4>Series</h4>
+<p>A series of <code>hpi</code> objects are created with <code>createSeries()</code>. This results in a <code>serieshpi</code> object, with two initial slots: <strong>$data</strong> (<code>hpidata</code> object) and <strong>$hpis</strong> a list of <code>hpi</code> objects (minus the data component which has been removed to avoid duplication.)</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb54-2" data-line-number="2">  ex_serieshpi &lt;-<span class="st"> </span><span class="kw">createSeries</span>(<span class="dt">hpi_obj =</span> ex_hpi,</a>
+<a class="sourceLine" id="cb54-3" data-line-number="3">                               <span class="dt">train_period =</span> <span class="dv">48</span>,</a>
+<a class="sourceLine" id="cb54-4" data-line-number="4">                               <span class="dt">max_period =</span> <span class="dv">60</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">  <span class="kw">class</span>(ex_serieshpi)</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">  <span class="kw">str</span>(ex_serieshpi, <span class="dt">max.level=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"> </a></code></pre></div>
+<p>Series can be plotted and saved into a <code>plotseries</code> object.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">  ex_plotseries &lt;-<span class="st"> </span><span class="kw">plot</span>(ex_serieshpi)</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">  <span class="kw">class</span>(ex_plotseries)</a>
+<a class="sourceLine" id="cb58-2" data-line-number="2"> </a></code></pre></div>
+</div>
+<div id="revision" class="section level4">
+<h4>Revision</h4>
+<p>The revision of a series is calculated with <code>calcRevision()</code> and returns an object of class <code>seriesrevision</code>. This object contains a <code>data.frame</code> of revision by period and median and mean summaries of overall revision levels.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">  ex_seriesrevision &lt;-<span class="st"> </span><span class="kw">calcRevision</span>(<span class="dt">series_obj =</span> ex_serieshpi)</a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">  <span class="kw">class</span>(ex_seriesrevision)</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2">  </a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">  <span class="kw">str</span>(ex_seriesrevision)</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2"> </a></code></pre></div>
+<p>To add the revision to the <code>serieshpi</code> object, use <strong>in_place = TRUE</strong>.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1">  temp_series &lt;-<span class="st"> </span><span class="kw">calcRevision</span>(<span class="dt">series_obj =</span> ex_serieshpi,</a>
+<a class="sourceLine" id="cb62-2" data-line-number="2">                              <span class="dt">in_place =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">  <span class="kw">class</span>(temp_series)</a></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">  <span class="kw">class</span>(temp_series<span class="op">$</span>revision)</a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">  <span class="kw">str</span>(temp_series, <span class="dt">max.level=</span><span class="dv">1</span>)</a></code></pre></div>
+<p>Plotting revisions can be saved to a <code>plotrevision</code> object.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1">  ex_plotrevision &lt;-<span class="st"> </span><span class="kw">plot</span>(ex_seriesrevision)</a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">  <span class="kw">class</span>(ex_plotrevision)</a>
+<a class="sourceLine" id="cb67-2" data-line-number="2"> </a></code></pre></div>
+</div>
+</div>
+<div id="series-accuracy" class="section level3">
+<h3>Series Accuracy</h3>
+<p>Finally, accuracy can be calculated at the series level by providing a <code>serieshpi</code> object to <code>calcSeriesAccuracy()</code>, resulting in a <code>seriesaccuracy</code> object. <code>seriesaccuracy</code> objects look nearly identical to <code>hpiaccuracy</code> objects, however they differ in two respects: 1) they may include estimate of accuracy for the same observation multiple times <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>; 2) they will have a <strong>series</strong> field, indicating from which index in the series the accuracy estimate is derived.</p>
+<p>Using <strong>test_method = ‘forecast’</strong> will create a true, prediction-type test of accuracy (out of sample and into the future), where <strong>kfold</strong> is out of sample (but with knowledge of the future) and <strong>insample</strong> is just a simple fitting measure.</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1">  ex_seriesaccuracy &lt;-<span class="st"> </span><span class="kw">calcSeriesAccuracy</span>(<span class="dt">series_obj =</span> ex_serieshpi,</a>
+<a class="sourceLine" id="cb68-2" data-line-number="2">                                          <span class="dt">test_method =</span> <span class="st">'insample'</span>,</a>
+<a class="sourceLine" id="cb68-3" data-line-number="3">                                          <span class="dt">test_type =</span> <span class="st">'rt'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">  <span class="kw">class</span>(ex_seriesaccuracy)</a></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1">  <span class="kw">str</span>(ex_seriesaccuracy)</a></code></pre></div>
+<p>This object can be added directly to the <code>serieshpi</code> object by using the <strong>in_place = TRUE</strong> argument.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">  temp_series &lt;-<span class="st"> </span><span class="kw">calcSeriesAccuracy</span>(<span class="dt">series_obj =</span> ex_serieshpi,</a>
+<a class="sourceLine" id="cb71-2" data-line-number="2">                                    <span class="dt">test_method =</span> <span class="st">'insample'</span>,</a>
+<a class="sourceLine" id="cb71-3" data-line-number="3">                                    <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb71-4" data-line-number="4">                                    <span class="dt">in_place=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1">  <span class="kw">class</span>(temp_series)</a></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1">  <span class="kw">class</span>(temp_series<span class="op">$</span>accuracy)</a></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1">  <span class="kw">str</span>(temp_series, <span class="dt">max.level=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb74-2" data-line-number="2">  </a></code></pre></div>
+<p>Finally, <code>seriesaccuracy</code> objects can be saved to a plot of class <code>plotaccuracy</code></p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1">  ex_plotaccuracy &lt;-<span class="st"> </span><span class="kw">plot</span>(ex_seriesaccuracy, <span class="dt">return_plot =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1">  <span class="kw">class</span>(ex_plotaccuracy)</a>
+<a class="sourceLine" id="cb76-2" data-line-number="2"> </a></code></pre></div>
+<p>For more information on using the above functions please see the <strong>“Introduction”</strong> Vignette also provided with this package.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Additional approaches will be added here in the future.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Accuracy results are added to <code>hpi</code> objects and not <code>hpindex</code> object because they require data that is outside of the <code>hpiindex</code> object and therefore relate to the hpi collection more than just the index.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>This will <strong>not</strong> happen only when using a test_method of type “forecast” and a “forecast_length” of 1.<a href="#fnref3" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

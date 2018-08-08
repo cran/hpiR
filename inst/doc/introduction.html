@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Andy Krause" />
+
+<meta name="date" content="2018-08-05" />
+
+<title>Introduction to the hpiR package</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to the <code>hpiR</code> package</h1>
+<h4 class="author"><em>Andy Krause</em></h4>
+<h4 class="date"><em>2018-08-05</em></h4>
+
+
+
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>This vignette provides an introduction to using the <code>hpiR</code> package for estimating house price indexes. At the current time, this package (version 0.2.0) offers two approaches to estimate house price indexes – repeat transactions and hedonic price models. Future versions will incorporate additional methodological options. More information on this package’s development can be found at <a href="https://www.github.com/andykrause/hpiR">www.github.com/andykrause/hpiR</a></p>
+<p>A detailed explanation of the class and method structure employed in this package can be found in the <strong>Classes in hpiR</strong> vignette in this package, or at: <a href="https://github.com/andykrause/hpiR/blob/master/vignettes/classstructure.Rmd" class="uri">https://github.com/andykrause/hpiR/blob/master/vignettes/classstructure.Rmd</a></p>
+<div id="terminology" class="section level4">
+<h4>Terminology</h4>
+<p>A bit of terminology:</p>
+<ul>
+<li><strong>Index</strong>: a time-series of values estimating tracking the movement of prices over time with a base period value of 100</li>
+<li><strong>Series</strong>: progression of increasing longer indexes<br />
+</li>
+<li><strong>Model</strong>: statistical or other type of mathematical equation or algorithm used to generate the raw coefficient (or other) estimates that are converted into the scaled (base = 100) index values</li>
+<li><strong>Accuracy</strong>: ability of an index to represent the actual market movements</li>
+<li><strong>Volatility</strong>: measure of the period to period movement in index values</li>
+<li><strong>Smooth</strong>: reduce volatility with a rolling average or similar smoothing process</li>
+<li><strong>Revision</strong>: amount that the index value for a specific period moves over the course of a <strong>series</strong></li>
+</ul>
+<p>In general, this vignette takes the following path through the functionality provided by <code>hpiR</code> as this is imagined to most closely approximate a real-world application of the package to real estate market data.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Data preparation</strong></li>
+<li><strong>Modeling</strong></li>
+<li><strong>Index creation</strong></li>
+<li><strong>Analysis: Index-level</strong></li>
+<li><strong>Series creation</strong></li>
+<li><strong>Analysis: Series-level</strong></li>
+</ol>
+</div>
+</div>
+<div id="load-package" class="section level3">
+<h3>Load Package</h3>
+<p>Begin by loading the <code>hpiR</code> packages (assuming that you’ve already downloaded it from: <a href="https://www.github.com/andykrause/hpiR">www.github.com/andykrause/hpiR</a> or from CRAN (forthcoming).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">  <span class="kw">library</span>(hpiR)</a></code></pre></div>
+</div>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>This package provides two sample datasets to work with. The first, <code>seattle_sales</code>, includes over 43,000 sales of single family homes and townhouses within the City of Seattle over the 2010 to 2016 time frame. The second, <code>ex_sales</code> is a subset of the first, encompassing only the central area of the city. The source of the data is the King County Assessor’s office.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> The data is open and free to share.</p>
+<p>The data can be loaded with the <code>data(seattle_sales)</code> and <code>data(ex_sales)</code> commands. We will work with the <code>ex_sales</code> object in this vignette.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">  <span class="kw">data</span>(seattle_sales)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">  <span class="kw">data</span>(ex_sales)</a></code></pre></div>
+<p>All potential models, indexes and series that can be created with <code>hpiR</code> require the transaction date to be converted to a numeric and relative time period. Relative, here, means relative to the base period which is assumed to be the first period in the transaction data.</p>
+<p>The <code>dateToPeriod()</code> function will convert R date fields into relative time periods based on a periodicity of choice. The available periodicity options are:</p>
+<ul>
+<li><em>“yearly”</em></li>
+<li><em>“quarterly”</em></li>
+<li><em>“monthly”</em></li>
+<li><em>“weekly”</em></li>
+</ul>
+<p>with <em>“yearly”</em> as the default. In addition to the transaction data (<code>trans_df</code>) and the period type selection (<code>periodicity</code>), the <code>dateToPeriod()</code> function also requires an input telling it which field in the data contains the transaction date (<code>date</code>).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">  sales_hdf &lt;-<span class="st"> </span><span class="kw">dateToPeriod</span>(<span class="dt">trans_df =</span> ex_sales,</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">                            <span class="dt">date =</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">                            <span class="dt">periodicity =</span> <span class="st">'monthly'</span>)</a></code></pre></div>
+<p>The default specification of <code>dateToPeriod()</code> will use the minimum and maximum dates in the data provided to it as the lower and upper time boundaries for the modeling and index creation that follow. You can, however, set custom dates using the <code>min_date</code> and <code>max_date</code> arguments. For example, let’s assume that we want to estimate an index that covers the entire transaction period plus one month on either side (in this case from December 2009 to January 2017). We add these dates as alternate minimums and maximums. You see a warning telling you that there are empty periods – periods in which there are no transactions.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">  sales_hdf &lt;-<span class="st"> </span><span class="kw">dateToPeriod</span>(<span class="dt">trans_df =</span> ex_sales,</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">                            <span class="dt">date =</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">                            <span class="dt">periodicity =</span> <span class="st">'monthly'</span>,</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">                            <span class="dt">min_date =</span> <span class="kw">as.Date</span>(<span class="st">'2009-12-01'</span>),</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">                            <span class="dt">max_date =</span> <span class="kw">as.Date</span>(<span class="st">'2016-12-31'</span>))</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">## Your choice of periodicity resulted in 1 empty periods out of 85 total periods.</a></code></pre></div>
+<p>If the dates that are provided as alternative minimums and maximums are within the range of transaction dates in the data, there are two options to what can happen. The first, and default, is that the minimums and maximums will be adjusted to be the actual minimum and maximum dates in the transactions. A warning will let you know that this has happened.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">  sales_hdf &lt;-<span class="st"> </span><span class="kw">dateToPeriod</span>(<span class="dt">trans_df =</span> ex_sales,</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">                            <span class="dt">date =</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">                            <span class="dt">periodicity =</span> <span class="st">'monthly'</span>,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">                            <span class="dt">min_date =</span> <span class="kw">as.Date</span>(<span class="st">'2010-12-01'</span>),</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">                            <span class="dt">max_date =</span> <span class="kw">as.Date</span>(<span class="st">'2015-12-31'</span>))</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">## Supplied &quot;min_date&quot; is greater than minimum of transactions. Adjusting.</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">## Supplied &quot;max_date&quot; is less than maximum of transactions. Adjusting.</a></code></pre></div>
+<p>Alternatively, you can use the <code>min_date</code> and <code>max_date</code> arguments to “clip”&quot; your dataset to a particular time frame by setting <code>adj_type = &quot;clip&quot;</code>. The default, <code>adj_type = &quot;move&quot;</code>, simply moves it to the minimum or maximum in the data as shown above. The clipping functionality allows you to create an index for a subset of the time period covered by your data.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">  sales_hdf_clip &lt;-<span class="st"> </span><span class="kw">dateToPeriod</span>(<span class="dt">trans_df =</span> ex_sales,</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">                                 <span class="dt">date =</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">                                 <span class="dt">periodicity =</span> <span class="st">'monthly'</span>,</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">                                 <span class="dt">min_date =</span> <span class="kw">as.Date</span>(<span class="st">'2010-12-01'</span>),</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">                                 <span class="dt">max_date =</span> <span class="kw">as.Date</span>(<span class="st">'2015-12-31'</span>),</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">                                 <span class="dt">adj_type =</span> <span class="st">'clip'</span>)</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">## Supplied &quot;min_date&quot; date is greater than minimum of transactions. Clipping transactions.</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">## Supplied &quot;max_date&quot; is less than maximum of transactions. Clipping transactions.</a></code></pre></div>
+<p>For the sake of the remainder of this analysis, let’s allow the defaults to set the time boundaries based on the data itself (we will use the <code>sales_hdf</code> object going forward).</p>
+<p>We now have a dataset that includes two new, standardized fields (<code>trans_date</code> and <code>trans_period</code>) indicating the date of transaction and the period of each transaction relative to the first transaction in the data (at a monthly periodicity), respectively. Note that these standardized fields are required for the processes that follow.</p>
+<p>Additional information on the full extent of the periods as well as their numeric and date values can be found in the <code>&quot;period_table&quot;</code> attribute of the <code>sales_hdf</code> object or accessed by:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">  <span class="kw">head</span>(<span class="kw">attr</span>(sales_hdf, <span class="st">'period_table'</span>))</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">##       name  numeric period</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">## 1 2010-Jan 2010.000      1</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">## 2 2010-Feb 2010.083      2</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">## 3 2010-Mar 2010.167      3</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">## 4 2010-Apr 2010.250      4</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">## 5 2010-May 2010.333      5</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">## 6 2010-Jun 2010.417      6</a></code></pre></div>
+<p>Finally, information on the minimum date, maximum date and the periodicity can also be found in the attributes of <code>hpidata</code> objects.</p>
+</div>
+<div id="repeat-transactions-sales-model" class="section level3">
+<h3>Repeat Transactions (Sales) Model</h3>
+<p>Let’s start by creating an index using a repeat-transactions model (often referred to as a repeat-sales or a sale-resale model), one of the most popular approaches to create a house price index.</p>
+<div id="data-prep" class="section level4">
+<h4>Data Prep</h4>
+<p>First, we use the <code>rtCreateTrans()</code> function to convert the transaction data (the <code>hpidata</code> object) into a <code>data.frame</code> of repeat transactions (properties that have transacted multiple times in the 2010 to 2016 period.) The <code>rtCreateTrans()</code> function requires a unique property id field, a unique transaction id field and a field denoting the transaction price.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">  sales_rtdf &lt;-<span class="st"> </span><span class="kw">rtCreateTrans</span>(<span class="dt">trans_df =</span> sales_hdf,</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">                              <span class="dt">prop_id =</span> <span class="st">'pinx'</span>,</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">                              <span class="dt">trans_id =</span> <span class="st">'sale_id'</span>,</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">                              <span class="dt">price =</span> <span class="st">'sale_price'</span>)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">                          </a></code></pre></div>
+<p>This function creates a <code>data.frame</code> with eight fields: the property id, the time period for the first transaction and the second transaction, the prices for the two tranactions, the unique transaction ids for both and a unique id for the pair. The resulting object has a class of <code>rtdata</code> (inheriting from <code>hpidata</code> and <code>data.frame</code>).</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">prop_id</th>
+<th align="right">period_1</th>
+<th align="right">period_2</th>
+<th align="right">price_1</th>
+<th align="right">price_2</th>
+<th align="left">trans_id1</th>
+<th align="left">trans_id2</th>
+<th align="right">pair_id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">..0007600057</td>
+<td align="right">56</td>
+<td align="right">80</td>
+<td align="right">520000</td>
+<td align="right">625000</td>
+<td align="left">2014..23738</td>
+<td align="left">2016..28612</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">..0216000010</td>
+<td align="right">29</td>
+<td align="right">47</td>
+<td align="right">1063000</td>
+<td align="right">1300000</td>
+<td align="left">2012..12112</td>
+<td align="left">2013..36837</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">..0342000250</td>
+<td align="right">40</td>
+<td align="right">78</td>
+<td align="right">626800</td>
+<td align="right">751000</td>
+<td align="left">2013..11548</td>
+<td align="left">2016..17781</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">..0342000570</td>
+<td align="right">15</td>
+<td align="right">57</td>
+<td align="right">295000</td>
+<td align="right">429000</td>
+<td align="left">2011..4885</td>
+<td align="left">2014..27574</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">..0342000570</td>
+<td align="right">15</td>
+<td align="right">78</td>
+<td align="right">295000</td>
+<td align="right">607000</td>
+<td align="left">2011..4885</td>
+<td align="left">2016..18557</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">..0342000570</td>
+<td align="right">57</td>
+<td align="right">78</td>
+<td align="right">429000</td>
+<td align="right">607000</td>
+<td align="left">2014..27574</td>
+<td align="left">2016..18557</td>
+<td align="right">6</td>
+</tr>
+</tbody>
+</table>
+<p>In the event of more than two transactions of the same property, all pairs of transactions are created by default – sales 1 to 2, 1 to 3 and 2 to 3. If you’d like to only use sequential transactions as pairs – sales 1 to 2 and 2 to 3, for example – you can set <code>seq_only = TRUE</code> (default is FALSE).</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">  sales_rtdf_so &lt;-<span class="st"> </span><span class="kw">rtCreateTrans</span>(<span class="dt">trans_df =</span> sales_hdf,</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">                                 <span class="dt">prop_id =</span> <span class="st">'pinx'</span>,</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">                                 <span class="dt">trans_id =</span> <span class="st">'sale_id'</span>,</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">                                 <span class="dt">price =</span> <span class="st">'sale_price'</span>,</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">                                 <span class="dt">seq_only =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">prop_id</th>
+<th align="right">period_1</th>
+<th align="right">period_2</th>
+<th align="right">price_1</th>
+<th align="right">price_2</th>
+<th align="left">trans_id1</th>
+<th align="left">trans_id2</th>
+<th align="right">pair_id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">..0007600057</td>
+<td align="right">56</td>
+<td align="right">80</td>
+<td align="right">520000</td>
+<td align="right">625000</td>
+<td align="left">2014..23738</td>
+<td align="left">2016..28612</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">..0216000010</td>
+<td align="right">29</td>
+<td align="right">47</td>
+<td align="right">1063000</td>
+<td align="right">1300000</td>
+<td align="left">2012..12112</td>
+<td align="left">2013..36837</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">..0342000250</td>
+<td align="right">40</td>
+<td align="right">78</td>
+<td align="right">626800</td>
+<td align="right">751000</td>
+<td align="left">2013..11548</td>
+<td align="left">2016..17781</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">..0342000570</td>
+<td align="right">15</td>
+<td align="right">57</td>
+<td align="right">295000</td>
+<td align="right">429000</td>
+<td align="left">2011..4885</td>
+<td align="left">2014..27574</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">..0342000570</td>
+<td align="right">57</td>
+<td align="right">78</td>
+<td align="right">429000</td>
+<td align="right">607000</td>
+<td align="left">2014..27574</td>
+<td align="left">2016..18557</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">..0345000485</td>
+<td align="right">8</td>
+<td align="right">31</td>
+<td align="right">622000</td>
+<td align="right">517000</td>
+<td align="left">2010..15338</td>
+<td align="left">2012..17939</td>
+<td align="right">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="modeling" class="section level4">
+<h4>Modeling</h4>
+<p>Next, we use the <code>rtdata</code> object to estimate a repeat transactions model. In this simple example we will use the <em>“base”</em> estimator (a simple OLS) with a logged dependent variable (<code>log_dep = TRUE</code>). Models may also be estimated via a robust regression model (<code>estimator = &quot;robust&quot;</code>) or a weighted OLS model (<code>estimator = &quot;weighted&quot;</code>) as originally suggested by Case and Shiller (1987).</p>
+<p>The <code>hpiModel()</code> function is an S3 method that will dispatch on the class of the object that is passed to its <code>hpi_df</code> argumet. In this case that class is <code>rtdata</code> signifying that the data is in repeat-transaction format. Again, we’ll use a base estimator here with a logged dependent variable. The <code>hpiModel()</code> function returns an object of class <code>hpimodel</code> that includes the full regression model results, extracted and cleaned coefficients as well as additional information on the approach.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">  rt_model &lt;-<span class="st"> </span><span class="kw">hpiModel</span>(<span class="dt">hpi_df =</span> sales_rtdf,</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">                       <span class="dt">estimator =</span> <span class="st">'base'</span>,</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">                       <span class="dt">log_dep =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>The objects created by regression models can be rather large, so by default the <code>hpiModel()</code> function trims some of the unnecessary results from the model estimation function(s). If you want full results you can set <code>trim_model = FALSE</code>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">  rt_full &lt;-<span class="st"> </span><span class="kw">hpiModel</span>(<span class="dt">hpi_df =</span> sales_rtdf,</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">                      <span class="dt">estimator =</span> <span class="st">'base'</span>,</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">                      <span class="dt">log_dep =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">                      <span class="dt">trim_model =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">  <span class="kw">object.size</span>(rt_model)</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">## 591816 bytes</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">  <span class="kw">object.size</span>(rt_full)</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9">## 1079744 bytes</a></code></pre></div>
+</div>
+<div id="index-creation" class="section level4">
+<h4>Index Creation</h4>
+<p>We can then convert model results into an index with the <code>modelToIndex()</code> function. The output of this function is an objet of class <code>hpiindex</code>, which has a time-series object ($value slot, class <code>ts</code>) with an index value (base = 100) for each of the time periods estimated. Note that no smoothing is done at this time.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">  rt_index &lt;-<span class="st"> </span><span class="kw">modelToIndex</span>(<span class="dt">model_obj =</span> rt_model)</a></code></pre></div>
+<p>If you want to limit the extent of the index (clip periods from the end of it) you can set the <code>max_period</code> argument within the <code>modelToIndex()</code> function to the last period you wish to have in the index.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">  rt_short &lt;-<span class="st"> </span><span class="kw">modelToIndex</span>(<span class="dt">model_obj =</span> rt_model,</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">                           <span class="dt">max_period =</span> <span class="dv">50</span>)</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">  <span class="kw">length</span>(rt_short<span class="op">$</span>value)</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">## [1] 50</a></code></pre></div>
+<p>A simple plot (with the <code>plot.hpiindex()</code> method) shows the results of this estimation.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">  <span class="kw">plot</span>(rt_index)</a></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAADwCAMAAADo8yYpAAAAz1BMVEUAAAAAACsAAFUAK4AAVaorAAArACsrAFUrgNQzMzNNTU1NTWtNTYhNa6ZNiMRVAABVACtVK4BVVapVqv9mZmZrTU1rTWtrTYhra4hra6ZrpsRrpuGAKwCAK1WAgCuAgFWAqoCA1P+ITU2ITWuITYiIa02Ia6aIxP+ma02ma2uma4imiE2mxKam4eGm4f+qVQCqVVWq1ICq///EiE3E///UgCvU1P/U/6rU///hpmvh///r6+v/qlX/xIj/1ID/4ab//6r//8T//9T//+H///94C+kbAAAACXBIWXMAAA7DAAAOwwHHb6hkAAASuElEQVR4nO2dC3vbthmF1dRpM6eZtxnpLvEuyS5ut87Z6nqbIzt2HP7/3zSSIkVcPpAABYBH0jlPIlEQePTRfIUbQWFVURSwVksHQFFjIqAUtAgoBS0CSkGLgFLQIqAUtNIAuvZr7L14IbtBB4fsJtoR0ORu0MEhuxHQMm7QwSG7EdAybtDBIbsR0DJu0MEhuxHQMm7QwSG7EdAybtDBIbsR0DJu0MEhuxUAlKLipVRAJpagqHYH76Zq+e0IaHI36ODw3AY+CWgZN+jg4Nw0PgloGTfo4NDcdD4JaBk36ODA3Aw+CWgZN+jgwNwMPgloGTfo4LDcFAFdwA06uCXdlJti8ElAy7hBB7egm0WjkERAi7hBB7csoGo8hYAWcYMODg3QSTsCmtwNOrjl3JQDqJNAQIu4QQe3MKDKSpm2I6DJ3aCDI6ApjmVayG7QwQEB6rZJCWgRN+jgFnNraDSRdIedCGgRN+jgSrnJQ54EFMENOrhCbi58DqBuDZ8O0Idf/1Q/vD79pn769O701QcCms9uH93cIaUtoMpImLabA+h9Q+anP19Vt68+fP7usrr9OQHNZ7ePbj5ANSqFAjQVoNcvf6hL0Ifffqg+/eWn+t+mQCWgmez20E15h5SGZIHPtFV8V4K2nNabVfWzWjEm1MGqhq/9byXpz/b7k4pvg24an/evekAbxX/ZZgrZDTq4Em7KHVLaFpjac+YS9OHbq+r+m5+GEpSA5rHbOzdlNzfXawdMkc+0gHZFJ9ugue32zm1obrqJw4C9wGeWEvTzd2/Yi89qt29uStn9obXde/fwmXgc9P709OUVx0Gz2xV2E8mJcRP76Q6gwXazAPUq8ljmC9kNOrgpNx87wW7GQJI0Ku/Fk4AWcoMOLhWgm2wyoOOba/8nENAibtDBJQK0q6YnAR0ZlQ8MjoAmd4MOLiWgSrlucteIgCK5QQc34ebvwAj5pKz2hDrlpsYFR0CTu0EHlwbQ7dSkiTvd+ywEFMkNOriEgHpmfdpzRJyJynHBEdDkbtDBpQZ04k730XH5oOAIaHI36OCSAiryKFoSUCA36ODyAurrNxFQJDfo4MbdAks77/CRZ+fQq1MEtIgbdHDJAR3/KYY4hQN6s1qd33z5PwIKYFcY0BDItlkqd1QpdXAioO+//O/Z+dPFCQEFsNsvQHeJLRjQx7Pz+l919+xHArq8HQEloAS0UxigQ47KvvReBtDqpqniH89exPJJ7bmUezumJ9fUdnKZnaS7Va0ZfEZ+O9J+11DcoIMbdQu8LKmVoJ5p8wmDkwGdq8gPT3soKG7QwWUEdOcanoCWcYMOLgOgyklOGZwE6OPZqhU7SQh2+d2sGzOmQNPer6zb4TIEJwHaYfqLt7F8EtAMdtndbMR8oAkg6oDuXsPHVvF38ZeSIj887aGguEEHFweo96cXBjfvdfk0wY0Cyioewa4EoMbcJLnSVna2zk1KThjcGKDvWYIi2OV2c8gzAFXebL3bsFcxQLtO0hdsgyLYLQeoigA0BZ8cZirjBh3cXEDVdiaeTqIBaI7gCGgGN+jgPIDqZJqAal0gL6DOr4EmC04AtB8E5TgoiF1mN21+iFuS6oWrD9DQKVBzgluzBM3gBh1cHKBmknKuNPWApilACWgZN+jgRgC1RzT1qlvL4QE0S3BrD6Afn7OKh7ErA6iSATX76E5ZOQCaJ7i1DOjTxYuni3bOMgFd3q4AoGsJUGUC2r/jApqohyQFt/aNg55X71/wUieGXV43qe7WoTQLVy+geYJr0zyA3pzwUieG3bKAGi1RD6BxPxseEVybJgBavW/pnHHfceSHpz0UFDfo4IIBVSagQ3YB0FzBtWkSoHUjtHo/cqmzXUTh9vS0XbOTiyjktcvi5k4BtTC0anXp6nzy2JINM7WLyVbXl802F5PNbZfDze6wW3W3gav9ztKAPv5qis/NYrKfv2+Xl+NCXrntMgFqTvxwAFUyoGsAQM+mxz/bxWTf1VX8ZcXFZPdRDXP9xjZhuGnYeGW8U78sFqQprYpvrsaPD4H2K83VpSgXk81tl8FNBZWg2qsysUW0QW/G74rf1unXl1xMNrddLkCn5n5q1Xqh2KI6SXUx6h9l0gBlGzS3XU5APeNH9nBnodhie/H+gfp+tePPf+distntygG6zRTKJ3YJesvFZIvYRblNcmVOkPMNcMIDOtEG9arYsSC7LRjcNFjVWpwfYnWFsAGd7sUT0IJ24W4hTUcdUDUGaOLYZts5gNZ4zridk4Bms3PdPPSoKEAdnPUdoQH9ZfxP0xPQHHZKdvNRqOwyUZQfUOmzpwR6LZ6AlrDr6ansVBEst1/ujy0A0EAR0H10S2OnRECVEgkVRt5HYhuyEtBcx4Lslg5QZbvJ5aSObACgWtZdZxovBOjTfwjo0nZKAlRJbJkl6lEA2i2f8PR73vKxmJ0PUGlLBy0C0AT3Ei1Vxd81V5HueNvxcnZKAtQsKLVpSNaeE7FpLruGuVgbtP39m5NYPI8eUM/A0BynYcTIAFTfHm66tPccUZWi4NTdUiqik/Tx+axrncWOBdJNHhiabdXBV2lp9sUeoRk5CWhCPhcD9OlidXI3MlmEgIpKB6jq8dPcLBhHBkTHnA8C0Mez5mLn4xnboHFKCuhaANTOI7F2FIB2983968gA3fHEyUPrOzgZgIqtTSFiuUuvxXYAgM5XsWPJ4bbrmUsK6GBYGWlGtrGd1/plJ31M4CAAvVmtzmf8sMh+S+24FmoLQaJAzHsu9bSQvbV4DFmeeyXzp2+a1Y6fLk6iXYp92TK4yTVmhISRy9k+26344t3ceyg8uwZDygJ0uU7SMa4XjwKoFscAaERwJqB2OgEtcyyAgKo0gOphGIBGGDhGw+uDALS6aar47or8sQAqD9pEKA2gRhTti8pOnXYwns03DgPQ6q75BfAZl5KKHUsmQHc5dzMBdQc3zZf6DM7gQLQny/tAAJ2rYsdyMIAan+mEsAOgwtEolWq9mF4EtJzbcoA6M0CMd7vpHXMAlSPcd0CPdCGvnU+eVjxFBGd8qBvAAGhkJPI+BwFoo5sGzeNa5WPn6k+50zvC9rJGlZy35wEqkngogHZoHtUwU0lA7VbnMG4p1cpV7ACYFon7DgEtcyyp3VRBQK1KfcuMp8yLv3ruP5bEfC5dxR/ROKi/1AmU3vCbBtSo1JU+NcTNOwtQD4mHAuhmHHTG7zMVO5YDA9TXqzGL2IhYfLscCqBzVexYErupgoCalfqwl7/Miw1rbJ+kfBLQUm5jiIRpLqB9iq/2TQ0o8mkIB/ToVjseSJlrEQuo8XkjPbTZgHreQz4NwYDOmQl6RIB6CrrhudKTRy44GlX9GKABQTk7ed5CPg2xw0zHA6hdok1l9idqgKqt3Jx2m3e0V0NAbUCfLo4PUON5KrM4HDQ8b6eXSohqbYEQQGeNDI3sgnwawtugU0P07SIKD6+bleYOYhGFbIAaG3pOm1z/J89qF/t3QT4NEVX8+GSRdjHZZvWuh2+vSiwmK5yipH8Zu1c9mVm8JDk8W3PgzR10bHVu/R84GVKMDgLQCW0Wk71vqCyykJdERGpArY2paKSOz7BhAWoWuh5A/UJGChPQYaW5uhTNv5hsXxvm8N5+wHYrMBw30bfh+4i8x3R4mgNos8pc/sVkxc5wwq+uZh1egionUdsQ5sC7hXRw5we5zEOdsLwB9NO7N1WVfTFZ1Xd4jfOZ7i/TFmTDdkh+J5+aAWhw7wcZKegq/uH1ZUNp7jao3IFJ9pdp2YoAdPt1kWLsNmVAncMI7P0gI4UM6IbPKvdisvqZ1c5oor9MVzBX2uvpPZx8dh9IADRuJMsQMlLIgN6eNrrMPQ7qqRIn3cIw6NCaA6gztDlsewB1yQ4SMlKogHqV/Fh8PZgptzAQevdoQL2DSD2gvpEoAhprhw+osJkI0C1ZOwNqvk9AE9phA2q17oaTGwBoWIfcdJvcS2gRu9W9D1BFQOPt4AGVX0y4CUOVcibLLRhQ73CRF1BxfCpEyEgdO6D+vkgCQLUs8wCVRhfGAQ0q120hI0VAfaM5nZvvdAegILjFALrd3x3w9AAacfndEDJSRw6ofT4dpLznO4AFsTyO2WnzEc7nKO+NwgR0jh04oL7X5pRLac8JFuQuVwygfZ2tnCy+O9kJ6Ay7ZQANOk3SuTfcvCd8sj9i7TkPULlVOQHoqL0oZKQOFdCgEyWee6Nb4y0nxwF1uZoJqIgcAU1rBwuodDZNQP3dYrFxqPna71X6uxNB2QlCFu+P1RDQeLslALUAsTpCQybHwwHUg6Hyj4mLVIcCGvjF8v+a0gw+oZE6CkDdjoeT6mbdzscQCfUC6ilzUwM6q6T0CRmpYwBUuYB66+4htdq+8LYE5PahiI4fUKdXJOztfAYBTWi3AKDKAdR84W9bri1A+13kXEKD0WPrAdSJJAg8f/TzhIzUIQOqX5HRAR09wwKgAjUeQP3ciIAKXxYCmtWtAKBB6irB7QtlLJnaPXt3VfamYaC7WMlONl9semBqWJI1dB1W5QZE7a5yJWhbvmzLGKOImi56+gx6R9lpEoiV/5i3UIJaUTm1/WiILEHT2S0CqIaLTevEIUiA2m1F2W7M2wXUhTsO0IB8oUJG6nABNUq5OYCKBFkuuwEqfHQQdwQ0qV1xQJUNqFWcjqvP6o7kKNdFzzNKTRCgoSKgSe2WAHR4cmidPLNeQAW4dL9Ra3OMNjCSkQgJaDq7BQFVFq2h4+A+gtzSz9iKBHQykrEICWgyu2KA2vWuBWgoFsog23nLdJFQlZQU0J2KX0HISB0QoMpkcdt9N2kN7SXLBEmABnW/bEB3Qywtn9BIHRCgTvnmdt9DT6zRZbfeWJs2ztdClgBoUCTe+HbY2xEyUocEqL0WkYGZv1SU5GvlCbV/WOOBgEK4LQ+oMX/TKAejAPUWiAJd9qfKsZkWOzYiCWhKu3KA2lWz+yL8xHpySi4hzi6goYHIYey0ty1kpA4L0PUkoLsdisemPKDIECC7gQG6dl7kATTA2p5MTUAXcVscUKtx5/RmMgE6XSI6gIYHMmGXQMfjtjygdgdG347DwvdJHkAj3AjoYm4AgI6tV5UM0AgbwY2ALuaGAOiIoqjIC2i8g9dudx2PW2JAH143KyKirdVJQPfXLS2gn95dVrevPpRYqzPKbQ5dBBTCLS2g3QpeBdbqLOuW4DrQvhwqmlsWQPOv1VlavCETUvOq+JdX+dfq3Ds36OCQ3dJ3kn73/VX2tTr3zw06OGS39MNMdQP04NqgcHbH45a4F18Xm3X3PfdanXvoBh0cslviEvT+tB0ABRsHBXCDDg7ZDfxK0s6HguIGHRyyWwFAR4Q8BIUcG3RwBWMjoKhCDo6AlhFybNDBEdAyQo4NOrhDApSidhEBpaBFQCloEVAKWgSUglYOQB9en55eahdD20klxqXR5STG1iUuLjG4qmruXlhcYmyfvzt9eTW1527KAGgzneTh26vtTSH3zT1M5i0ii0mMrUtcOjY5uFq3AN8eObbry+o+c7GTAdD75gCuL/sJedcvf6gfzel5i0mMrUtcOjY5uLqs+s1fQWNrXuVWpjaocVNIc0TmBOdF5cTWJS4bVSc3uM/f/xOhiq/Ek/qPfaziq6qdLTrcFNIci3mLyJJyY+sSESQEd/sGog0qxfbw+rIteXIqC6Cf3r2pKtASVIitSwSQ/IfDAHShk5qnF9/8QYdW5wNOG1SMrUtcXlJwt6eNlv/+iCf1b3sJaHe6h5tCmmMxbxFZTGJsWHxawVUYw0xybNd7WcVvvvOXkOOgYmx94tKS/3AYgHpP6jeZa0VeSaKgRUApaBFQCloElIIWAaWgRUApaBFQCloElIIWAaWgRUApaBFQCloElIIWAaWgRUApaBFQCloElIIWAaWgRUApaBFQCloElIIWAaWgRUApaBFQCloENImeLlYbnXz86u1Uri+sHPYud89+zBHjfoqAJtMYmhs9Xbxonm4mACSgmghoMgUD+nh2PpqNgGoioMm0AbR+/PjVn56vVi8+1g/nm3q9I04DtEv9+PUfVs/+Xe/YvD5p31t98UcCOoiAJtMA6PMv/1fdrJqHZz8+XZzUlXq9XW0BfT+kfnx+0u7SvG7+P569qP8T0EEENJk0QOuCc/Pw1du2vu4q9a6TVKf0qUau+qF9nmqjHpUIaDJpVfzb7lX9cLPp3bdFZ1eC1upT+1x3TRHb5G6fvyagWxHQZPIAuqndW2mAdqkEdEoENJlkQO+0Uc8B0D7VyNVX8ezFayKgySQD+nRRF4odjwOgfeqQq+8knbCTZIiAJpMMaNsz6srLAdA+1ch1UnGYyREBpaBFQCloEVAKWgSUghYBpaBFQCloEVAKWgSUghYBpaBFQClo/R8EGImGPVRQFAAAAABJRU5ErkJggg==" /><!-- --></p>
+<p>In situations where there are empty periods in the modeling results (there was no or not enough data to estimate a value for a particular period), the <code>modelToIndex()</code> will impute (using the <code>imputeTS</code> package) the missing periods. For missing periods at the start of the index or before the first non-100 period, all periods are given a value of 100. For missing internal periods (those with estimated periods both before and after) a ‘stine’ interpolation is used and for those missing at the end a ‘last observation carried forward’ (LOCF) approach is used. The <code>\$imputed</code> slot in the <code>hpiindex</code> object will indicate which periods have been imputed.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">  rt_model_imp &lt;-<span class="st"> </span>rt_full</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">  rt_model_imp<span class="op">$</span>coefficients<span class="op">$</span>coefficient[<span class="dv">3</span><span class="op">:</span><span class="dv">5</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">  rt_index_imp &lt;-<span class="st"> </span><span class="kw">modelToIndex</span>(<span class="dt">model_obj =</span> rt_model_imp)</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">## Total of 3 period(s) imputed</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">  rt_index_imp<span class="op">$</span>value[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>]</a>
+<a class="sourceLine" id="cb15-7" data-line-number="7">## [1] 100.00000  94.32403  93.77995  93.50346  93.37582  93.33960</a>
+<a class="sourceLine" id="cb15-8" data-line-number="8">  </a>
+<a class="sourceLine" id="cb15-9" data-line-number="9">  rt_index_imp<span class="op">$</span>imputed[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>]</a>
+<a class="sourceLine" id="cb15-10" data-line-number="10">## [1] 0 0 1 1 1 0</a></code></pre></div>
+<p>The plot function can show the imputed periods as well with <code>show_imputed=TRUE</code>.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">  rt_model_imp &lt;-<span class="st"> </span>rt_full</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">  rt_model_imp<span class="op">$</span>coefficients<span class="op">$</span>coefficient[<span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">23</span>, <span class="dv">55</span>, <span class="dv">78</span>, <span class="dv">83</span>)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">  rt_index_imp &lt;-<span class="st"> </span><span class="kw">modelToIndex</span>(<span class="dt">model_obj =</span> rt_model_imp)</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">## Total of 6 period(s) imputed</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6">  <span class="kw">plot</span>(rt_index_imp, <span class="dt">show_imputed=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="smoothing" class="section level4">
+<h4>Smoothing</h4>
+<p>As we see from the plots of the indexes above, considerable volatility from one period to the next is common. Smoothing of indexes may be warranted as indexes resulting from raw model results often exhibit greater volatility than is actually occuring in the market. The <code>smoothIndex()</code> function will smooth via a moving average function, with small corrections to keep index length after smoothing. The amount of smoothing is controlled by the <code>order</code> argument – the number of periods over which to smooth. Note that the <code>order</code> is saved in the attributes of the <code>indexsmooth</code> object.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">  rt_smooth &lt;-<span class="st"> </span><span class="kw">smoothIndex</span>(<span class="dt">index_obj =</span> rt_index,</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">                           <span class="dt">order =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">  <span class="kw">attr</span>(rt_smooth, <span class="st">'order'</span>)</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">## [1] 5</a></code></pre></div>
+<p>The <code>smoothIndex()</code> function can be done <strong>‘in_place’</strong> such that the smoothed indexes are added to the larger <code>hpiindex</code> object.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">   rt_index &lt;-<span class="st"> </span><span class="kw">smoothIndex</span>(<span class="dt">index_obj =</span> rt_index,</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">                           <span class="dt">order =</span> <span class="dv">7</span>,</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">                           <span class="dt">in_place =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">   <span class="kw">names</span>(rt_index)</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5">## [1] &quot;name&quot;    &quot;numeric&quot; &quot;period&quot;  &quot;value&quot;   &quot;imputed&quot; &quot;smooth&quot;</a></code></pre></div>
+<p>The <strong>in_place</strong> smoothing can be plotted by adding <code>smooth=TRUE</code> to the plot call.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">   <span class="kw">plot</span>(rt_index, <span class="dt">smooth=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="data-to-index-wrapper" class="section level4">
+<h4>Data to Index Wrapper</h4>
+<p>A wrapper function, <code>rtIndex()</code>, will do all of the above taking it from a raw <code>data.frame</code> of transaction data through to the repeat transaction index creation and storing all results in a unified object of class <code>hpi</code>.</p>
+<p>There are three ‘levels of entry’ with the wrapper function.</p>
+<ol style="list-style-type: decimal">
+<li><p>You can give it a raw <code>data.frame</code> with your transactions and it will A) Add the periods; B) Calculate the repeat transactions; and C) Model the data and create the index. Under this approach <code>trans_df</code> is passed a raw <code>data.frame</code> along with the following arguments, some of which are optional (will revert to default if not given) and some of which are required (mostly field names):</p>
+<ul>
+<li><code>periodicity</code> (optional: default = ‘annual’)</li>
+<li><code>min_date</code> (optional: default = minimum of data)</li>
+<li><code>max_date</code> (optional: default = maximum of data)</li>
+<li><code>adj_type</code> (opt: default = ‘move’)</li>
+<li><code>date</code> (required)</li>
+<li><code>price</code> (required)</li>
+<li><code>trans_id</code> (required)</li>
+<li><code>prop_id</code> (required)</li>
+<li><code>seq_only</code> (optional: default = FALSE)</li>
+<li><code>estimator</code> (optional: default = ‘base’)</li>
+<li><code>log_dep</code> (optional: default = TRUE)</li>
+<li><code>trim_model</code> (optional: default = FALSE)</li>
+<li><code>max_period</code> (optional: default = maximum of index length)</li>
+<li><code>smooth</code> (optional: default = FALSE)</li>
+<li><code>smooth_order</code> (optional, default = 3)</li>
+</ul></li>
+</ol>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">  rt_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">rtIndex</span>(<span class="dt">trans_df =</span> ex_sales,</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">                  <span class="dt">periodicity =</span> <span class="st">'monthly'</span>,</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">                  <span class="dt">min_date =</span> <span class="st">'2010-06-01'</span>,</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">                  <span class="dt">max_date =</span> <span class="st">'2015-11-30'</span>,</a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">                  <span class="dt">adj_type =</span> <span class="st">'clip'</span>,</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6">                  <span class="dt">date =</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">                  <span class="dt">price =</span> <span class="st">'sale_price'</span>,</a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">                  <span class="dt">trans_id =</span> <span class="st">'sale_id'</span>,</a>
+<a class="sourceLine" id="cb20-9" data-line-number="9">                  <span class="dt">prop_id =</span> <span class="st">'pinx'</span>,</a>
+<a class="sourceLine" id="cb20-10" data-line-number="10">                  <span class="dt">seq_only =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb20-11" data-line-number="11">                  <span class="dt">estimator =</span> <span class="st">'robust'</span>,</a>
+<a class="sourceLine" id="cb20-12" data-line-number="12">                  <span class="dt">log_dep =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb20-13" data-line-number="13">                  <span class="dt">trim_model =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb20-14" data-line-number="14">                  <span class="dt">max_period =</span> <span class="dv">48</span>,</a>
+<a class="sourceLine" id="cb20-15" data-line-number="15">                  <span class="dt">smooth =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb20-16" data-line-number="16">## Supplied &quot;min_date&quot; date is greater than minimum of transactions. Clipping transactions.</a>
+<a class="sourceLine" id="cb20-17" data-line-number="17">## Supplied &quot;max_date&quot; is less than maximum of transactions. Clipping transactions.</a></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li><p>You can provide a <code>hpidata</code> object (one that has been through the <code>dateToPeriod()</code> function). In this case, the following arguments are valid:</p>
+<ul>
+<li><code>date</code> (required)</li>
+<li><code>price</code> (required)</li>
+<li><code>trans_id</code> (required)</li>
+<li><code>prop_id</code> (required)</li>
+<li><code>seq_only</code> (optional: default = FALSE)</li>
+<li><code>estimator</code> (optional: default = ‘base’)</li>
+<li><code>log_dep</code> (optional: default = TRUE)</li>
+<li><code>trim_model</code> (optional: default = FALSE)</li>
+<li><code>max_period</code> (optional: default = maximum of index length)</li>
+<li><code>smooth</code> (optional: default = FALSE)</li>
+<li><code>smooth_order</code> (optional, default = 3)</li>
+</ul></li>
+</ol>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">  sales_hdf &lt;-<span class="st"> </span><span class="kw">dateToPeriod</span>(<span class="dt">trans_df =</span> ex_sales,</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">                            <span class="dt">date =</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4">                            <span class="dt">periodicity =</span> <span class="st">'monthly'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">  rt_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">rtIndex</span>(<span class="dt">trans_df =</span> sales_hdf,</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">                  <span class="dt">date =</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3">                  <span class="dt">price =</span> <span class="st">'sale_price'</span>,</a>
+<a class="sourceLine" id="cb22-4" data-line-number="4">                  <span class="dt">trans_id =</span> <span class="st">'sale_id'</span>,</a>
+<a class="sourceLine" id="cb22-5" data-line-number="5">                  <span class="dt">prop_id =</span> <span class="st">'pinx'</span>,</a>
+<a class="sourceLine" id="cb22-6" data-line-number="6">                  <span class="dt">seq_only =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb22-7" data-line-number="7">                  <span class="dt">estimator =</span> <span class="st">'weighted'</span>,</a>
+<a class="sourceLine" id="cb22-8" data-line-number="8">                  <span class="dt">log_dep =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb22-9" data-line-number="9">                  <span class="dt">trim_model =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb22-10" data-line-number="10">                  <span class="dt">max_period =</span> <span class="dv">56</span>,</a>
+<a class="sourceLine" id="cb22-11" data-line-number="11">                  <span class="dt">smooth =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Finally, you can provide it an <code>rtdata</code> object (one that has been through the <code>rtCreateTrans()</code> function). Only the following arguments are meaningful in this case.</p>
+<ul>
+<li><code>estimator</code> (optional: default = ‘base’)</li>
+<li><code>log_dep</code> (optional: default = TRUE)</li>
+<li><code>trim_model</code> (optional: default = FALSE)</li>
+<li><code>max_period</code> (optional: default = maximum of index length)</li>
+<li><code>smooth</code> (optional: default = FALSE)</li>
+<li><code>smooth_order</code> (optional, default = 3)</li>
+</ul></li>
+</ol>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">  sales_rtdf &lt;-<span class="st"> </span><span class="kw">rtCreateTrans</span>(<span class="dt">trans_df =</span> sales_hdf,</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">                            <span class="dt">prop_id =</span> <span class="st">'pinx'</span>,</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">                            <span class="dt">trans_id =</span> <span class="st">'sale_id'</span>,</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4">                            <span class="dt">price =</span> <span class="st">'sale_price'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">  rt_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">rtIndex</span>(<span class="dt">trans_df =</span> sales_rtdf,</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">                  <span class="dt">estimator =</span> <span class="st">'robust'</span>,</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">                  <span class="dt">log_dep =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb24-4" data-line-number="4">                  <span class="dt">trim_model =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">                  <span class="dt">max_period =</span> <span class="dv">80</span>,</a>
+<a class="sourceLine" id="cb24-6" data-line-number="6">                  <span class="dt">smooth =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb24-7" data-line-number="7">                  <span class="dt">smooth_order =</span> <span class="dv">5</span>)</a></code></pre></div>
+<p>A plot method exists to cleanly plot <code>hpi</code> objects.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">  <span class="kw">plot</span>(rt_<span class="dv">3</span>, <span class="dt">smooth=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+<div id="hedonic-price-model" class="section level3">
+<h3>Hedonic Price Model</h3>
+<p>Another option for developing a house price index is to use a hedonic price model. Similar to the repeat transaction model presented above, this process can be done stepwise or through a single wrapper function (<code>hedIndex()</code>). We’ll start with individual steps.</p>
+<p>First, we create a set of hedonic model ready data with the <code>hedCreateTrans()</code> function. Here we provide the raw transactions, along with field names for the property id, the transaction ids, the price and date. A periodicity (<em>“yearly”</em>, <em>“quarterly”</em>, <em>“monthly”</em> or <em>“weekly”</em>) is also required. Note that this function uses the <code>dateToPeriod()</code> discussed above and creates an object of class <code>heddata</code> inheriting from <code>hpidata</code> and <code>data.frame</code>.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">  sales_hhdf &lt;-<span class="st"> </span><span class="kw">hedCreateTrans</span>(<span class="dt">trans_df =</span> ex_sales,</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">                               <span class="dt">prop_id =</span> <span class="st">'pinx'</span>,</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3">                               <span class="dt">trans_id =</span> <span class="st">'sale_id'</span>,</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4">                               <span class="dt">price =</span> <span class="st">'sale_price'</span>,</a>
+<a class="sourceLine" id="cb26-5" data-line-number="5">                               <span class="dt">date=</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb26-6" data-line-number="6">                               <span class="dt">periodicity =</span> <span class="st">'monthly'</span>)</a></code></pre></div>
+<p>Next, we estimate the hedonic model. There are two ways to specify the model. First, you can provide the dependent variable and independent variable(s) directly, as in the example below. These will simply be combined as a basic linear formula. The <code>log_dep</code> argument will control whether or not the dependent variable (<code>dep_var</code>) is converted into log format (as is common in hedonic price studies).</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">  hed_model &lt;-<span class="st"> </span><span class="kw">hpiModel</span>(<span class="dt">hpi_df =</span> sales_hhdf,</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">                        <span class="dt">estimator =</span> <span class="st">'base'</span>,</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">                        <span class="dt">dep_var =</span> <span class="st">'price'</span>,</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4">                        <span class="dt">ind_var =</span> <span class="kw">c</span>(<span class="st">'tot_sf'</span>, <span class="st">'beds'</span>, <span class="st">'baths'</span>),</a>
+<a class="sourceLine" id="cb27-5" data-line-number="5">                        <span class="dt">log_dep =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>If you’d like more control over the model specification – such as using interactions or categorical variables – you can, instead, provide a fully formed model specification in the <code>hed_spec</code> argument.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">  model_spec &lt;-<span class="st"> </span><span class="kw">as.formula</span>(<span class="st">'log(price) ~ as.factor(baths) + tot_sf'</span>)</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">  </a>
+<a class="sourceLine" id="cb28-3" data-line-number="3">  hed_model &lt;-<span class="st"> </span><span class="kw">hpiModel</span>(<span class="dt">hpi_df =</span> sales_hhdf,</a>
+<a class="sourceLine" id="cb28-4" data-line-number="4">                        <span class="dt">estimator =</span> <span class="st">'base'</span>,</a>
+<a class="sourceLine" id="cb28-5" data-line-number="5">                        <span class="dt">hed_spec =</span> model_spec,</a>
+<a class="sourceLine" id="cb28-6" data-line-number="6">                        <span class="dt">log_dep =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>In addition to the base estimator (OLS) there are robust regression (<code>estimator = &quot;robust&quot;</code>) and weighted least squares (<code>estimator = &quot;weighted&quot;</code>) options.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">  hed_model_rob &lt;-<span class="st"> </span><span class="kw">hpiModel</span>(<span class="dt">hpi_df =</span> sales_hhdf,</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">                            <span class="dt">estimator =</span> <span class="st">'robust'</span>,</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3">                            <span class="dt">dep_var =</span> <span class="st">'price'</span>,</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4">                            <span class="dt">ind_var =</span> <span class="kw">c</span>(<span class="st">'tot_sf'</span>, <span class="st">'beds'</span>, <span class="st">'baths'</span>),</a>
+<a class="sourceLine" id="cb29-5" data-line-number="5">                            <span class="dt">log_dep =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>Do note that the weighted option requires a vectors of weights.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">  hed_model_wgt &lt;-<span class="st"> </span><span class="kw">hpiModel</span>(<span class="dt">hpi_df =</span> sales_hhdf,</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2">                            <span class="dt">estimator =</span> <span class="st">'weighted'</span>,</a>
+<a class="sourceLine" id="cb30-3" data-line-number="3">                            <span class="dt">dep_var =</span> <span class="st">'price'</span>,</a>
+<a class="sourceLine" id="cb30-4" data-line-number="4">                            <span class="dt">ind_var =</span> <span class="kw">c</span>(<span class="st">'tot_sf'</span>, <span class="st">'beds'</span>, <span class="st">'baths'</span>),</a>
+<a class="sourceLine" id="cb30-5" data-line-number="5">                            <span class="dt">log_dep =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb30-6" data-line-number="6">                            <span class="dt">weights =</span> <span class="kw">runif</span>(<span class="kw">nrow</span>(sales_hhdf), <span class="dv">0</span>, <span class="dv">1</span>))</a></code></pre></div>
+<p>The output from <code>hpiModel()</code> can be converted to an index with the <code>modelToIndex()</code> function.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">  hed_index &lt;-<span class="st"> </span><span class="kw">modelToIndex</span>(<span class="dt">model_obj =</span> hed_model)</a></code></pre></div>
+<p>And, again, this can be plotted to shown the index.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">  <span class="kw">plot</span>(hed_index)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>The <code>hedIndex()</code> wrapper function will perform all of the above hedonic modeling tasks, and then condense the results into an unified object of class <code>hpi</code>.</p>
+<p>There are three ‘levels of entry’ with the wrapper function.</p>
+<ol style="list-style-type: decimal">
+<li><p>You can give it a raw <code>data.frame</code> with your transactions and it will A) Add the periods; B) Create a hedonic sales object; and 3) Model the data and create the index. Under this approach <code>trans_df</code> is passed a raw <code>data.frame</code> along with the following arguments, some of which are optional (will revert to default if not given) and some of which are required (mostly field names and the model specification):</p>
+<ul>
+<li><code>periodicity</code> (optional: default = ‘annual’)</li>
+<li><code>min_date</code> (optional: default = minimum of data)</li>
+<li><code>max_date</code> (optional: default = maximum of data)</li>
+<li><code>adj_type</code> (opt: default = ‘move’)</li>
+<li><code>date</code> (required)</li>
+<li><code>price</code> (required)</li>
+<li><code>trans_id</code> (required)</li>
+<li><code>prop_id</code> (required)</li>
+<li><code>dep_var</code> (required, unless <code>hed_spec</code> supplied)</li>
+<li><code>ind_var</code> (required, unless <code>hed_spec</code> supplied)</li>
+<li><code>hed_spec</code> (required, unless <code>dep_var</code> and <code>ind_var</code> supplied)</li>
+<li><code>estimator</code> (optional: default = ‘base’)</li>
+<li><code>log_dep</code> (optional: default = TRUE)</li>
+<li><code>trim_model</code> (optional: default = FALSE)</li>
+<li><code>max_period</code> (optional: default = maximum of data)</li>
+<li><code>smooth</code> (optional: default = FALSE)</li>
+<li><code>smooth_order</code> (optional, default = 3)</li>
+</ul></li>
+</ol>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">  hed_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">hedIndex</span>(<span class="dt">trans_df =</span> ex_sales,</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">                    <span class="dt">periodicity =</span> <span class="st">'monthly'</span>,</a>
+<a class="sourceLine" id="cb33-3" data-line-number="3">                    <span class="dt">min_date =</span> <span class="st">'2010-06-01'</span>,</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4">                    <span class="dt">max_date =</span> <span class="st">'2015-11-30'</span>,</a>
+<a class="sourceLine" id="cb33-5" data-line-number="5">                    <span class="dt">adj_type =</span> <span class="st">'clip'</span>,</a>
+<a class="sourceLine" id="cb33-6" data-line-number="6">                    <span class="dt">date =</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb33-7" data-line-number="7">                    <span class="dt">price =</span> <span class="st">'sale_price'</span>,</a>
+<a class="sourceLine" id="cb33-8" data-line-number="8">                    <span class="dt">trans_id =</span> <span class="st">'sale_id'</span>,</a>
+<a class="sourceLine" id="cb33-9" data-line-number="9">                    <span class="dt">prop_id =</span> <span class="st">'pinx'</span>,</a>
+<a class="sourceLine" id="cb33-10" data-line-number="10">                    <span class="dt">estimator =</span> <span class="st">'robust'</span>,</a>
+<a class="sourceLine" id="cb33-11" data-line-number="11">                    <span class="dt">log_dep =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb33-12" data-line-number="12">                    <span class="dt">trim_model =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb33-13" data-line-number="13">                    <span class="dt">max_period =</span> <span class="dv">48</span>,</a>
+<a class="sourceLine" id="cb33-14" data-line-number="14">                    <span class="dt">dep_var =</span> <span class="st">'price'</span>,</a>
+<a class="sourceLine" id="cb33-15" data-line-number="15">                    <span class="dt">ind_var =</span> <span class="kw">c</span>(<span class="st">'tot_sf'</span>, <span class="st">'beds'</span>, <span class="st">'baths'</span>),</a>
+<a class="sourceLine" id="cb33-16" data-line-number="16">                    <span class="dt">smooth =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb33-17" data-line-number="17">## Supplied &quot;min_date&quot; date is greater than minimum of transactions. Clipping transactions.</a>
+<a class="sourceLine" id="cb33-18" data-line-number="18">## Supplied &quot;max_date&quot; is less than maximum of transactions. Clipping transactions.</a></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li><p>You can provide an <code>hpidata</code> object (one that has been through the <code>dateToPeriod()</code> function). In this case, the following arguments are valid:</p>
+<ul>
+<li><code>date</code> (required)</li>
+<li><code>price</code> (required)</li>
+<li><code>trans_id</code> (required)</li>
+<li><code>prop_id</code> (required)</li>
+<li><code>dep_var</code> (required, unless <code>hed_spec</code> supplied)</li>
+<li><code>ind_var</code> (required, unless <code>hed_spec</code> supplied)</li>
+<li><code>hed_spec</code> (required, unless <code>dep_var</code> and <code>ind_var</code> supplied)</li>
+<li><code>estimator</code> (optional: default = ‘base’)</li>
+<li><code>log_dep</code> (optional: default = TRUE)</li>
+<li><code>trim_model</code> (optional: default = FALSE)</li>
+<li><code>max_period</code> (optional: default = maximum of data)</li>
+<li><code>smooth</code> (optional: default = FALSE)</li>
+<li><code>smooth_order</code> (optional, default = 3)</li>
+</ul></li>
+</ol>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">  sales_hdf &lt;-<span class="st"> </span><span class="kw">dateToPeriod</span>(<span class="dt">trans_df =</span> ex_sales,</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">                           <span class="dt">date =</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">                           <span class="dt">periodicity =</span> <span class="st">'monthly'</span>,</a>
+<a class="sourceLine" id="cb34-4" data-line-number="4">                           <span class="dt">min_date =</span> <span class="st">'2010-02-01'</span>,</a>
+<a class="sourceLine" id="cb34-5" data-line-number="5">                           <span class="dt">max_date =</span> <span class="st">'2015-11-30'</span>,</a>
+<a class="sourceLine" id="cb34-6" data-line-number="6">                           <span class="dt">adj_type =</span> <span class="st">'move'</span>)</a>
+<a class="sourceLine" id="cb34-7" data-line-number="7">## Supplied &quot;min_date&quot; is greater than minimum of transactions. Adjusting.</a>
+<a class="sourceLine" id="cb34-8" data-line-number="8">## Supplied &quot;max_date&quot; is less than maximum of transactions. Adjusting.</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">  hed_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">hedIndex</span>(<span class="dt">trans_df =</span> sales_hdf,</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">                    <span class="dt">date =</span> <span class="st">'sale_date'</span>,</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">                    <span class="dt">price =</span> <span class="st">'sale_price'</span>,</a>
+<a class="sourceLine" id="cb35-4" data-line-number="4">                    <span class="dt">trans_id =</span> <span class="st">'sale_id'</span>,</a>
+<a class="sourceLine" id="cb35-5" data-line-number="5">                    <span class="dt">prop_id =</span> <span class="st">'pinx'</span>,</a>
+<a class="sourceLine" id="cb35-6" data-line-number="6">                    <span class="dt">estimator =</span> <span class="st">'base'</span>,</a>
+<a class="sourceLine" id="cb35-7" data-line-number="7">                    <span class="dt">log_dep =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb35-8" data-line-number="8">                    <span class="dt">trim_model =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb35-9" data-line-number="9">                    <span class="dt">max_period =</span> <span class="dv">56</span>,</a>
+<a class="sourceLine" id="cb35-10" data-line-number="10">                    <span class="dt">dep_var =</span> <span class="st">'price'</span>,</a>
+<a class="sourceLine" id="cb35-11" data-line-number="11">                    <span class="dt">ind_var =</span> <span class="kw">c</span>(<span class="st">'tot_sf'</span>, <span class="st">'beds'</span>, <span class="st">'baths'</span>),</a>
+<a class="sourceLine" id="cb35-12" data-line-number="12">                    <span class="dt">smooth =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Finally, you can provide it an <code>heddata</code> object (one that has been through the <code>hedCreateTrans()</code> function). Only the following arguments can be given in this case.</p>
+<ul>
+<li><code>dep_var</code> (required, unless <code>hed_spec</code> supplied)</li>
+<li><code>ind_var</code> (required, unless <code>hed_spec</code> supplied)</li>
+<li><code>hed_spec</code> (required, unless <code>dep_var</code> and <code>ind_var</code> supplied)</li>
+<li><code>estimator</code> (optional: default = ‘base’)</li>
+<li><code>log_dep</code> (optional: default = TRUE)</li>
+<li><code>trim_model</code> (optional: default = FALSE)</li>
+<li><code>max_period</code> (optional: default = maximum of data)</li>
+<li><code>smooth</code> (optional: default = FALSE)</li>
+<li><code>smooth_order</code> (optional, default = 3)</li>
+</ul></li>
+</ol>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">  sales_hhdf &lt;-<span class="st"> </span><span class="kw">hedCreateTrans</span>(<span class="dt">trans_df =</span> sales_hdf,</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">                               <span class="dt">prop_id =</span> <span class="st">'pinx'</span>,</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">                               <span class="dt">trans_id =</span> <span class="st">'sale_id'</span>,</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4">                               <span class="dt">price =</span> <span class="st">'sale_price'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">  hed_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">hedIndex</span>(<span class="dt">trans_df =</span> sales_hhdf,</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">                    <span class="dt">estimator =</span> <span class="st">'weighted'</span>,</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3">                    <span class="dt">log_dep =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb37-4" data-line-number="4">                    <span class="dt">trim_model =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb37-5" data-line-number="5">                    <span class="dt">max_period =</span> <span class="dv">80</span>,</a>
+<a class="sourceLine" id="cb37-6" data-line-number="6">                    <span class="dt">dep_var =</span> <span class="st">'price'</span>,</a>
+<a class="sourceLine" id="cb37-7" data-line-number="7">                    <span class="dt">ind_var =</span> <span class="kw">c</span>(<span class="st">'tot_sf'</span>, <span class="st">'beds'</span>, <span class="st">'baths'</span>),</a>
+<a class="sourceLine" id="cb37-8" data-line-number="8">                    <span class="dt">weights =</span> <span class="kw">runif</span>(<span class="kw">nrow</span>(sales_hhdf), <span class="dv">0</span>, <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb37-9" data-line-number="9">                    <span class="dt">smooth =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb37-10" data-line-number="10">                    <span class="dt">smooth_order =</span> <span class="dv">5</span>)</a></code></pre></div>
+<p>Again, we can plot with a simple <code>plot()</code> call.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">  <span class="kw">plot</span>(hed_<span class="dv">3</span>, <span class="dt">smooth=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAADwCAMAAADo8yYpAAAAzFBMVEUAAAAAACsAAFUAK4AAVaorAAArACsrAFUrgNQzMzNNTU1NTWtNTYhNa6ZNiMRVAABVACtVK4BVVapVqv9mZmZrTU1rTWtrTYhra4hra6ZrpuGAKwCAK1WAgCuAgFWAqoCA1P+ITU2ITWuITYiIa02Ia6aIxP+ma02ma2umiE2mxKam4eGm4f+qVQCqVVWq1ICq///EiE3E///UgCvU1P/U/6rU///hpmvh///r6+v/AAD/qlX/xIj/1ID/4ab//6r//8T//9T//+H////HQSEMAAAACXBIWXMAAA7DAAAOwwHHb6hkAAATwklEQVR4nO2di3rcthGFFcdOXCWp2ppOE6sXO03kpLHbOGrr7MqWLOP936m8ACRADEAQBMCBdM6XaHd5ORwv/x0CIAicCAhirJO9A4AgnwAoxFoAFGItAAqxFgCFWAuAQqyVBtCDW751carBsYogWTsC0KyOVQTJ2hGAZnWsIkjWjgA0q2MVQbJ2BKBZHasIkrUjAM3qWEWQrB0BaFbHKoJk7QhAszpWEeSOjs2yFQDN6VhFkPs5Ns0ioQA0q2MVQe4K6BKhUYBe//nX9s/T0y/blw8vTr/6DYCWs7xDjk0mQN91ZH747pV4+9VvH19eiLe/B6DlLO+QYyZA33zxzzaDXn/7m/jwj1/b/4aECkALWd4hxyaA0JgM2hMpM2jPaftWiN+1WmMC3XcNfDZhG68vgw6Fz3dfKUA7bf9RrVANjlUEuZdjlz0XU2g0oNdfvxLvvvx1yqAAtIzl3XHs2cwGqEydKIOWtrwzji2ax2M+QGUG/fjyGWrxRS3vjGMP6HHpGh8NqHh3evrFK7SDFre8M449nz2hXqsYQJ3aGvMq1eBYRZD7OEo+O0K9VgA0p2MVQe4EaAfnYZFQAJrVsYog9wO0fQGguzpWEeQ+jgOfi4QC0KyOVQS5i+NRA/QIQPdyrCLIPRxHPo23lBUAzelYRZDlHY9G2vSmUACa1bGKIAs72q1LngQKQPM6VhFkUcdjUOunZgVAczpWEWRJR4lnyNNI0gqA5nSsIshyjpLOoIeRlBUAzelYRZDFHI9jhT2YTwCa17GKIIs4NvLeu/qwD6AQRKlReE4f11ogg2ZxrCLIbI6NrqnqviJ/4hKf2bGKIHM5EnwGPYZkWgHQnI5VBFkAUHk/c/y4wgqA5nSsIsiMgKoFqnq0mk8AmtexiiAzORJ89ktXWgHQnI5VBJkdUH9/pQUrAJrTsYogcwO6hU8AmtexiiAzA7qJTwCa17GKIHMCejxu4xOA5nWsIsg8jqpxaRufADSvYxVB5gL0mIBPAJrXsYogMwGagM4DAM3sWEWQeRyT4AlAMztWEWQWxzR4RgLaDx728SUGD9vDcn/HgMmNkvHpAPTy5OTJ5af/c/DZT6Ig3lx0Y4RiEoXSlrs7hkxutDAawwqRgL7+9L9nT27PH9J8DpModCPXtsIAtqUt93YM6O6x6rHNBVGA3pw9af8TVw9+caTQfgDbb3/qLvGYROGeyT/xwbBC9v1Metz1gD696OjEJAqlLXd29PboHFaseqx4SRSg4rK7xN+cPXbRfK3mSfruFSZRKG25r6PqE+9cKfsm5wVUXJ20cvI5zJP0AyZR2MVyV8dGzcxB4jc+2yFyA7qgnsg3/SUekyiUtizpaFHWjI+9kVtLPg8sAP3wApPJ7mFZFtBm/tn9XKb27FFmQG/OTno5K0lO+Q6UJt7KHKsI0uloVYfGjxShE58HkYxPTwa9+cPztXwC0AKW5RzN+rrZuGkTqD/7XgRQceW8lQRAd7Qs5qg9I3ycpK08HPRb7tOz78UAxSWeo2VJQI1u8RahB32RGnqpJ7cMoK+RQTlalnIcGFMX7gG9icejqcM0NJivoTQmOAJQWUn6BGVQjpaFHLUK+1Eb0vM4lyqcaql09eAM3uAIQOO19lvYFnoFjlUESTmOjMmWTaPQObvcE8VTAFqJYxVBOgCV77Qr97TAXGL2ns8MqGoERTsoU8sdAG2oZiW9LbTR+EQGrcmxiiC9gMqmI+etI+PNgfq4MTgAmtORd5ASpCVAnSlRA3S2ODOg7x/hEs/WMp2jqm8TjnYCdRkcCCBzA3p7/vj2vO+zDN1hNaPIdf1r33dOkJtMm9mr03am7zXrUS9eP8atTp6WyRxli7qreNm/qrZNtwU5pHfCf7UL0MuHuNXJ0zIpoAd317nuRW89cnlQ+2cGVLzu6XQ/dwxAd7RM5eiqg6tlh6DBF+gEnBvQthAqXuNWJ0/LhIBa78yVAXzuBGi0fAdKF3NFjnyDbBYBDeHTUWPPCejNnwAoa8t0gGpvG3tlGJ90BSoroGcR7Z8AtJxlGkcdSrv3ZqO6iEQq7yW+uxsf2QRaJuaKHNkGqTNpAGp3TY5Q9jLope+peAC6q2UeQKf5DhLwWaKS1KbR9a1MALSAZRJHo9gptFalJHwWqsWjoZ6l5bJjwI1wo9QpiAeMtt1MRwatxXGPIAPoaixAjbS5ubMHyqC1OO4QZEB34dmFXMynM2IOKGrxrC03A2o99ibmhU7WgLZ4RtzjBKDFLIMA9QA251NK34U3oH9cLnrK8Ra78ekxeFhpywVH1cfTsXpGo8ZnLYAGaJhEQYi3pxcCkyiUtiQf0NDejuOBEBphbMxlsz0qB3SYRKHNo998fyEwgG1pS98DGgsjzMqy5nylOMz2qBxQNU/Sjz+/vMAkCgykP7Yh31kLOvV4CscTHNpC5xMee8p4Juk/Cxv3gL591l3eMYlCaUvbUS9zym4eqkypF0i1Vng7g86ycPIY460IQOX0Cbd/8U9D00/ihUkUSls6AJW9411VdK37nMWfAtTTP3RzjPFWBKDiqruLdOXudtcB+va00zOUQUtbWo5avd3RhKS3yhPlU6GWT4apY9xgRQE6jH/jmGhOGM1MmEQhoyXJCQWoPVynk08CvwoB7YZu8NzrRDtoEUsaFCeg8mquLTaaO9UHD6DOLdYqN6C35ycPr9BZZGdLR1vR3FFupupG+orZZi5XYW7BH9Cbs+5m580Zutvtaum4IUQA2r3YLfC2m7Y54aghHBewO8YtVhSg8rm5fwHQHS1ddyxpQJf41MdpcDh6EF6rvRvqAWgBy0BAh40Un35AHfeYxLSF9rJFJfqDPokYWASAJrR0dfqwAT2MdzC9aPWrfY71APq6m+349tzdzgRAs1su4jRtZ4/S7bZcALQJsAlQ9krSwnzxADS/5di66XdsmmYaf3sBrMVCAwBNqhocoy2bcECnNvgQ00VAE/CZ/RJ/2V3i5R15ALqL5ZjMnFUatV04nyGAppmEK3sl6aobATzisbkyMVfkGGu53Go5bhfO5/K9qWoAjVWZmKtwbEItSRw8jeYzQNfwuXh331WNWisAyt5RneZFS5qHYEBXXOCd0hwrAHTTRF6QVHeagzfUthy6vE+7L/g0so98MjVNcOSFZVaSOjRjZvko86Pi7zgloiVLM2OpbnHTMjuf6Y4p8mdtGVSMaKKZKVrBgBqFPrMH/LiBO8g0fBoxJuETgDJ3bEIBNdp1BjRnfYxtYEbHYyI+6wNUXeLRDhonHbtFQEcmVOqcIeoE1OyevEX1ATq0g0aMz1QmZuaOjY6d13K8+a3ny8Z6XoMK8piOT6tlNbHjRisS0FiViZm5o9HGblmOF3/imSErfVGMinFFEpasGFN4AlDGjo0b0GaUTSdZ3tQx1oMciwMpAub6RUorClDMdhytqVJuA+rGUy8UWI4zRgU5nNIWsfwiRysC0JieoAD0MGs0Gt4RbYxE9acx9rRMjUu9mPi8r4DGT8RdJmamjnPKCEC7l5FOHTBPA7leye8kJKjJ+GT3RZpWBKC35wB0vawkSAKqEqG9rZM3olp1SJlAuX2RMysC0Jgm+nsJqEGI1epjljUHorTqjsmXB7ex6DoiurDDWu3/RfqsCEBVfxFUkvwyGDGr2lQt/dj4bv4sPI85pudkM3FM2v2L9FoRgMYrYczLX3+27zXwzBsXWf3yS9Jp1MTXayJU2AffqLsHaD820/XT09N8YzMFfP+5vtfQU6+XG/sEaafMxrwxGc/neMAhSF+Rdb3uHKD9GPXdoKDXX7/KNUZ9wBnI9L2Gnnu9TiRpnDWrd+vFtPVWPmVoIjWflQG63GF5GKP+XUflm4tM44OGnALScdN5GwENcdEAVXyq99omGqBbItOOKTxNUnGqC9AQKSLbLJppjPrhJETtV+jIqt4i1NW8yLjv41HvnWIA7QavzTRGfUiWoBy35ZaxeLfsMWzUTKVNap8pgybLecnT5+HuZtAPL56JTGPUa80qqxzXnz1ja6HXlv3bN+YNSHqXySkdVMnxvLOAXj+96CjdUAb1tk1Tp8L87AJ0zQk0txbjk+G+uzrqdVYf8tnfm0ah9I7RgA58bhmj3s8BsX72OQegjeOnMfcf+Zx49dmnTHuscUrvGA3oMMvHRXw7qAemiQJiqdsxrGTgsRQH8sDWAaZGoymhurY/+NbHiDVO6R2jAHVqRcw+lhoyL823JwFdB8PMUtC/DPMAQ9zy2r6wQzPtEBzTkljjlN5xL0DHU0dtSyYe6zy7AQ2mgQB0DM6x+VT+1EJcSrn3plk9veNOgHozTzMBarZ6BwG6JoXOLLUD+344+k3Lhd9Eej5545TecR9A1Tmjz51aaNy/ts80Wap1mlKaW44fPIDObqqrK4HnEGGxBIs1TukddwN09ka/RzgsnPUAskGgAJ2b+jUDtFkAtDGblqZNPQdkffJrcNwFUJsEHcZG7+kr31JlVh+gYYTO4JreujI70SVp4RrO+uTX4LgXoNO7xt2B8jDRShQvqXaBub9fTkBJBxkJcVTP4Vif/Boc9wBUP6PGQ7UWnged0MMyoMQBPDLLjwZ9JKAEnge79csU65Nfg+NOgPavNo3zJyfk1iMai4ASOdgtVQOfF3f1A2kLHX4ANKvjDoCqE+rgyDrdGqEGCwSgdDHBJQUonbebWYQuM3+6Zn3ya3AsD2hjVtKt80uc72ZsEPUASo8nY2Fl1tpngUyb04PTkAKgOR13AfSgXzqnxkuV0aj6yWFMobaj3GbOENkqRFfQ5EehPplQjgg7/mm+8i7rk1+DY3FAm6nQNy0wRe4/7OABlMpxNqIaaLNAekDJetqwW2jTgCnWJ78Gx7SABmjMa/oSU/SO/T7etdR0AloalRuNG6oVg+V44KOxWDda+S+FUqpUBh2B0VZpWdNX41AFxZnjuM51CXYMdjiBOPaYE6OXXbKMS6C8s1MNjsUBtfAMl+Rp7qgu1G6AGndr60HvYkLfTFAfAegejoUB3YCnNfjB4NgYt5ocUjV0iaJpNNXN3IDG8sn75NfguAeg8dEama931Pj0EWTUv2TtyLgx2v+h+wvMP6wS65Nfg2NZQLfhqRxs+e/mdNLbB5oJSfmRAHR2Zz620xzrk1+DY3FAtwZMVXk8rVPafmZXEINX+cnqs7qydxQh1ie/BseigG5PoGNim1V0DssIza7YswTZf7J7/ZsoR4j1ya/BsTSgmwOeaBGHeVVmjckyoNothMhYbcsEumeOJQFNkUC1fCbiL75hgC72Rg4Q65Nfg2NhQBNEPAM02mQGqHQktow7ghTrk1+DY0FAkyTQhIAaH5yAbhTrk1+DY1lAU0SsAbrh8mvsCUD5OpYDNFECnQEab0NYAlB+jkUBTRJxM+G0rf5iWErH5GJ98mtwjAK0H29RjhoWOnhYqgSq4bSxgq1bDi8AlJ9jDKD9JApy9oTgSRSS8TmVGJPxqQRA+TlGADpMoiBHrg0dwDZdAh0JTZdAlQAoP8eYDDoMYDuM/R08iQLZ3z1SfbsQ+rjfK60GVM6ekGkShQVtvwVJChmUn2M0oFYGLQlognuQlAAoP8doQFeWQZN/Cxn4BKAMHaMBlbMnbJhEYaPS8wlAGTpGA7q2HZT1t5DNsYogWTtGAepUmZgrcqwiSNaOADSrYxVBsnYEoFkdqwiStSMAzepYRZCsHQFoVscqgmTtmBZQj9LNJZ9PNcRYRZAZYgSgoo4YqwgSgOZRDTFWESQAzaMaYqwiyBoBhaAtAqAQawFQiLUAKMRaABRirRyAXj89Pb3QOuTpvfS4iIxRLmQjMkjRP1HLRmSMH1+efvFqac8wZQC0exLk+utX44PJ+tPKXETGKBfuHdsoMshWbxn9iugY31z0z66lUAZA33WBvrlQD4UYTyunP1qcyBjlwr1jG0UG2eaob75nHmP3KZUylUGNx+q0Z+3yHC1OVoxy4b5RzWQH+fHHnzld4gV5sn/ifIkXon9iaXowWXtaOcvR4mTHKBdyEhHk22esyqBUjNdPL/qMlEJZAP3woj3NzDMoEaNcyEj0F8kL0MwnO08tvvsCp1LnNb8yKBmjXMhHVJBvTzvx+R2RJ/sH1oDK0zw9mKw9rcxFZIw8+ZwFKXg1M9ExvmF9iR9+4xes20HJGNVCLqK/SF6AOk/2l4mulriTBLEWAIVYC4BCrAVAIdYCoBBrAVCItQAoxFoAFGItAAqxFgCFWAuAQqwFQCHWAqAQawFQiLUAKMRaABRiLQAKsRYAhVgLgEKsBUAh1gKgEGsBUIi1ACjEWgA0iW7PTwY9fP/Z86WtPpltMd/l6sEvOWKsUwA0mXxoDro9f9y9XC4ACEA1AdBkCgb05uyJdzMAqgmAJtMAaPv3/Wd/f3Ry8vh9++fJcF2XxGmAyqXvP//ryYN/tzt2nx/2604++RsAnQRAk2kC9NGn/xOXJ92fB7/cnrfcXbbvxQjo62np+0cP+126z93/N2eP2/8B6CQAmkwaoG3iHP589ry/XsuLuqwktUvUUmOr9k//ulRGvVcCoMmkXeKfy0/tn8uhdt+nTplBW6mlaqurLsV2W/evnwPQUQA0mRyADlf3XhqgcikAXRIATSYa0Cut1XMCVC01tlKXeNTiNQHQZKIBvT1vk6LkcQJULZ22UpWkh6gkGQKgyUQD2teMZL6cAFVLja3QzEQIgEKsBUAh1gKgEGsBUIi1ACjEWgAUYi0ACrEWAIVYC4BCrAVAIdb6P9Bssm/E8Dt8AAAAAElFTkSuQmCC" /><!-- --></p>
+</div>
+<div id="analyzing-an-index" class="section level3">
+<h3>Analyzing an index</h3>
+<p>Before we start analyzing our indexes, we’ll create two example <code>hpi</code> objects, one using a repeat sales model and one with a hedonic price model.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">  rt_hpi &lt;-<span class="st"> </span><span class="kw">rtIndex</span>(<span class="dt">trans_df =</span> sales_rtdf,</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">                    <span class="dt">estimator =</span> <span class="st">'robust'</span>,</a>
+<a class="sourceLine" id="cb39-3" data-line-number="3">                    <span class="dt">log_dep =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb39-4" data-line-number="4">                    <span class="dt">trim_model =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb39-5" data-line-number="5">                    <span class="dt">max_period =</span> <span class="dv">84</span>,</a>
+<a class="sourceLine" id="cb39-6" data-line-number="6">                    <span class="dt">smooth =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb39-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb39-8" data-line-number="8">  hed_hpi &lt;-<span class="st"> </span><span class="kw">hedIndex</span>(<span class="dt">trans_df =</span> sales_hhdf,</a>
+<a class="sourceLine" id="cb39-9" data-line-number="9">                      <span class="dt">estimator =</span> <span class="st">'weighted'</span>,</a>
+<a class="sourceLine" id="cb39-10" data-line-number="10">                      <span class="dt">log_dep =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb39-11" data-line-number="11">                      <span class="dt">trim_model =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb39-12" data-line-number="12">                      <span class="dt">max_period =</span> <span class="dv">84</span>,</a>
+<a class="sourceLine" id="cb39-13" data-line-number="13">                      <span class="dt">dep_var =</span> <span class="st">'price'</span>,</a>
+<a class="sourceLine" id="cb39-14" data-line-number="14">                      <span class="dt">ind_var =</span> <span class="kw">c</span>(<span class="st">'tot_sf'</span>, <span class="st">'beds'</span>, <span class="st">'baths'</span>),</a>
+<a class="sourceLine" id="cb39-15" data-line-number="15">                      <span class="dt">weights =</span> <span class="kw">runif</span>(<span class="kw">nrow</span>(sales_hhdf), <span class="dv">0</span>, <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb39-16" data-line-number="16">                      <span class="dt">smooth =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div id="volatility" class="section level4">
+<h4>Volatility</h4>
+<p>One thing we can check for an index is its volatility. We can get the a rolling window volatility (standard deviation) of the index with the <code>calcIndexVolatility()</code> function. The <code>window</code> over which to calculate the volatility can be specified. Both volatility metrics at each window calculation (<code>\$roll</code>) as well as the summarized average volality(<code>\$mean</code>) and median (<code>\$median</code>) are returned by the function.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">  index_vol &lt;-<span class="st"> </span><span class="kw">calcVolatility</span>(<span class="dt">index =</span> hed_hpi<span class="op">$</span>index<span class="op">$</span>value,</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2">                              <span class="dt">window =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3">  <span class="kw">names</span>(index_vol)</a>
+<a class="sourceLine" id="cb40-4" data-line-number="4">## [1] &quot;roll&quot;   &quot;mean&quot;   &quot;median&quot;</a></code></pre></div>
+<p>Plotting an <code>indexvolatility</code> object shows the rolling volatility, the mean (dashed line) and the median (dotted) volatility on the top panel.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">  <span class="kw">plot</span>(index_vol)</a>
+<a class="sourceLine" id="cb41-2" data-line-number="2">## Warning: Removed 3 rows containing missing values (geom_path).</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>A number of differently classed objects can be passed to the <code>index</code> argument in the <code>calcVolatility()</code> function. These include the extracted <code>ts</code> object from an <code>hpiindex</code> object (as done above), the raw <code>hpiindex</code> object itself (from <code>modelToIndex()</code>), or an <code>hpi</code> object from one of the wrappers (<code>rtIndex()</code> or <code>hedIndex()</code>)</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"> <span class="co"># hpinindex object</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"> index_vol &lt;-<span class="st"> </span><span class="kw">calcVolatility</span>(<span class="dt">index =</span> hed_hpi<span class="op">$</span>index,</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3">                             <span class="dt">window =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb42-5" data-line-number="5"> <span class="co"># hpi object</span></a>
+<a class="sourceLine" id="cb42-6" data-line-number="6"> index_vol &lt;-<span class="st"> </span><span class="kw">calcVolatility</span>(<span class="dt">index =</span> hed_hpi,</a>
+<a class="sourceLine" id="cb42-7" data-line-number="7">                             <span class="dt">window =</span> <span class="dv">3</span>)</a></code></pre></div>
+<p>If you want to calculate the volatility of the smoothed index, you need to pass the smoothed index directly or change the <code>smooth</code> argument to TRUE (default is false) when passing an <code>hpiindex</code> or <code>hpi</code> object to <code>calcVolatility()</code>. Note, you must make sure that a ‘smoothed’ index exists in the <code>hpi</code> or <code>hpindex</code> object first.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">  <span class="co"># Direct passing</span></a>
+<a class="sourceLine" id="cb43-2" data-line-number="2">  sindex_vol &lt;-<span class="st"> </span><span class="kw">calcVolatility</span>(<span class="dt">index =</span> hed_hpi<span class="op">$</span>index<span class="op">$</span>smooth,</a>
+<a class="sourceLine" id="cb43-3" data-line-number="3">                               <span class="dt">window =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb43-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb43-5" data-line-number="5">  <span class="co"># While passing 'hpi' or 'hpiindex'</span></a>
+<a class="sourceLine" id="cb43-6" data-line-number="6">  sindex_vol &lt;-<span class="st"> </span><span class="kw">calcVolatility</span>(<span class="dt">index =</span> hed_hpi<span class="op">$</span>index,</a>
+<a class="sourceLine" id="cb43-7" data-line-number="7">                               <span class="dt">window =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb43-8" data-line-number="8">                               <span class="dt">smooth =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>The <code>calcVolatility()</code> function can also place the volatility metrics directly into the <code>hpiindex</code> object by setting <code>in_place = TRUE</code>. If passed an <code>hpiindex</code> object, the results will be stored in the <code>hpiindex</code> object which is returned. If passed an <code>hpi</code> object, the results will be stored in the <code>hpiindex</code> object within the <code>hpi</code> object which is returned.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">   <span class="co"># Add it to the 'hpiindex' object</span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">   hed_hpi<span class="op">$</span>index &lt;-<span class="st"> </span><span class="kw">calcVolatility</span>(<span class="dt">index =</span> hed_hpi<span class="op">$</span>index,</a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">                                   <span class="dt">window =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb44-4" data-line-number="4">                                   <span class="dt">in_place =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb44-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb44-6" data-line-number="6">   <span class="co"># Add it to the full 'hpi' object (to the hpiindex object)</span></a>
+<a class="sourceLine" id="cb44-7" data-line-number="7">   hed_hpi &lt;-<span class="st"> </span><span class="kw">calcVolatility</span>(<span class="dt">index =</span> hed_hpi,</a>
+<a class="sourceLine" id="cb44-8" data-line-number="8">                             <span class="dt">window =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb44-9" data-line-number="9">                             <span class="dt">in_place =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>A volatility analysis of a smoothed index will place it under the <strong>$volatility_smooth</strong> name.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">   hed_hpi &lt;-<span class="st"> </span><span class="kw">calcVolatility</span>(<span class="dt">index =</span> hed_hpi,</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">                             <span class="dt">window =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3">                             <span class="dt">in_place =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb45-4" data-line-number="4">                             <span class="dt">smooth =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb45-5" data-line-number="5">   <span class="kw">names</span>(hed_hpi<span class="op">$</span>index)</a>
+<a class="sourceLine" id="cb45-6" data-line-number="6">## [1] &quot;name&quot;              &quot;numeric&quot;           &quot;period&quot;           </a>
+<a class="sourceLine" id="cb45-7" data-line-number="7">## [4] &quot;value&quot;             &quot;imputed&quot;           &quot;smooth&quot;           </a>
+<a class="sourceLine" id="cb45-8" data-line-number="8">## [7] &quot;volatility&quot;        &quot;volatility_smooth&quot;</a></code></pre></div>
+<p>If you want to add it to the <code>hpiindex</code> object under a different name – say if you are comparing volatilities of different windows – you can use the <code>in_place_name</code> argument to give it a different name than the defaults (‘volatility’ and ‘volatility_smoothed’)</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">   hed_index &lt;-<span class="st"> </span><span class="kw">calcVolatility</span>(<span class="dt">index =</span> hed_hpi<span class="op">$</span>index,</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2">                               <span class="dt">window =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb46-3" data-line-number="3">                               <span class="dt">in_place =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb46-4" data-line-number="4">                               <span class="dt">in_place_name =</span> <span class="st">'vol_3'</span>)</a>
+<a class="sourceLine" id="cb46-5" data-line-number="5">   <span class="kw">names</span>(hed_index)</a>
+<a class="sourceLine" id="cb46-6" data-line-number="6">## [1] &quot;name&quot;              &quot;numeric&quot;           &quot;period&quot;           </a>
+<a class="sourceLine" id="cb46-7" data-line-number="7">## [4] &quot;value&quot;             &quot;imputed&quot;           &quot;smooth&quot;           </a>
+<a class="sourceLine" id="cb46-8" data-line-number="8">## [7] &quot;volatility&quot;        &quot;volatility_smooth&quot; &quot;vol_3&quot;</a></code></pre></div>
+<p>A note on renaming and in place addition. All of the analytical objects that are added – volatility and other below – can be renamed to allow for multiple analyses with different parameters. Smoothed indexes, however, cannot be renamed and must be stored under the name ‘smooth’ because all of the analytical process depend on identifying this named slot.</p>
+</div>
+<div id="fitting-accuracy-index" class="section level4">
+<h4>Fitting Accuracy (Index)</h4>
+<p>Next, we can test the accuracy of an index. In this case, we will define accuracy as the ability to properly estimate the second transaction price of a repeat transaction pair (a property that sells twice).<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> To start, we’ll do this in-sample, ignoring any issues of overfitting.</p>
+<p>The <code>calcAccuracy()</code> function requires a full <code>hpi</code> object as its main argument. <code>test_type</code> defines the manner of testing accuracy; at the moment the only working options is <em>“rt”</em> which uses repeat transactions to judge the accuracy of an index. (Additional types to come). <code>test_method</code> sets the manner in which the test is employed, <em>“insample”</em> or <em>“kfold”</em>. If the <code>hpi_obj</code> does not match the <code>test_type</code> (in all cases <em>“rt”</em> for now), then you must supply an <code>rtdata</code> object to in the <code>pred_df</code> argument.</p>
+<p>The <code>calcAccuracy()</code> function returns a <code>data.frame</code> comparing the actual (repeat) transaction price to the one predicted by the index. A <code>&quot;test_method&quot;</code> attribute indicates the type of accuracy test performed.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">   rt_is_accr &lt;-<span class="st"> </span><span class="kw">calcAccuracy</span>(<span class="dt">hpi_obj =</span> rt_hpi,</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2">                              <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb47-3" data-line-number="3">                              <span class="dt">test_method =</span> <span class="st">'insample'</span>)</a>
+<a class="sourceLine" id="cb47-4" data-line-number="4">   <span class="kw">attr</span>(rt_is_accr, <span class="st">'test_method'</span>)</a>
+<a class="sourceLine" id="cb47-5" data-line-number="5">## [1] &quot;insample&quot;</a></code></pre></div>
+<p>The smoothed index (if present) can be analyzed by setting <code>smooth = TRUE</code></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">    rts_is_accr &lt;-<span class="st"> </span><span class="kw">calcAccuracy</span>(<span class="dt">hpi_obj =</span> rt_hpi,</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">                                <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">                                <span class="dt">test_method =</span> <span class="st">'insample'</span>,</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">                                <span class="dt">smooth =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>As with the other analytical functions, the results of the accuracy calculations can be added to the <code>hpi_obj</code> by returning them in place (<code>in_place == TRUE</code>). A name (<em>“default = ‘accuracy’”</em>&quot;) may also be given.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">    <span class="co"># Returns an accuracy object in place</span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">    hed_hpi &lt;-<span class="st"> </span><span class="kw">calcAccuracy</span>(<span class="dt">hpi_obj =</span> hed_hpi,</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3">                            <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb49-4" data-line-number="4">                            <span class="dt">test_method =</span> <span class="st">'insample'</span>,</a>
+<a class="sourceLine" id="cb49-5" data-line-number="5">                            <span class="dt">pred_df =</span> sales_rtdf,</a>
+<a class="sourceLine" id="cb49-6" data-line-number="6">                            <span class="dt">in_place =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb49-7" data-line-number="7">                            <span class="dt">in_place_name =</span> <span class="st">'is_accuracy'</span>)</a>
+<a class="sourceLine" id="cb49-8" data-line-number="8">    <span class="kw">names</span>(hed_hpi)</a>
+<a class="sourceLine" id="cb49-9" data-line-number="9">## [1] &quot;data&quot;  &quot;model&quot; &quot;index&quot;</a>
+<a class="sourceLine" id="cb49-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb49-11" data-line-number="11">    <span class="co"># Returns a smooth accuracy object in place</span></a>
+<a class="sourceLine" id="cb49-12" data-line-number="12">    hed_hpi &lt;-<span class="st"> </span><span class="kw">calcAccuracy</span>(<span class="dt">hpi_obj =</span> hed_hpi,</a>
+<a class="sourceLine" id="cb49-13" data-line-number="13">                            <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb49-14" data-line-number="14">                            <span class="dt">test_method =</span> <span class="st">'insample'</span>,</a>
+<a class="sourceLine" id="cb49-15" data-line-number="15">                            <span class="dt">smooth =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb49-16" data-line-number="16">                            <span class="dt">pred_df =</span> rt_hpi<span class="op">$</span>data,</a>
+<a class="sourceLine" id="cb49-17" data-line-number="17">                            <span class="dt">in_place =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb49-18" data-line-number="18">                            <span class="dt">in_place_name =</span> <span class="st">'smooth_is_accuracy'</span>)</a></code></pre></div>
+<p>To create a better estimate of predictive ability we can employ a K-fold, out of sample test of accuracy. In a K-fold test, some percentage of the observations are withheld, the index re-estimated and then the newly estimated index is judged by its ability to predict the repeat transaction price in the withheld (out-of) sample.</p>
+<p>Two additional arguments are availabile here: 1) <code>k</code> - the number of folds to make (default = 10); and 2) <code>seed</code> a value to the control the random sampling (default = 1).</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">  rt_kf_accr &lt;-<span class="st"> </span><span class="kw">calcAccuracy</span>(<span class="dt">hpi_obj =</span> rt_hpi,</a>
+<a class="sourceLine" id="cb50-2" data-line-number="2">                             <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb50-3" data-line-number="3">                             <span class="dt">test_method =</span> <span class="st">'kfold'</span>,</a>
+<a class="sourceLine" id="cb50-4" data-line-number="4">                             <span class="dt">k =</span> <span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb50-5" data-line-number="5">                             <span class="dt">seed =</span> <span class="dv">123</span>)</a></code></pre></div>
+<p>We can do this with smoothed indexes.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">  rt_kf_accr_s &lt;-<span class="st"> </span><span class="kw">calcAccuracy</span>(<span class="dt">hpi_obj =</span> rt_hpi,</a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">                               <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3">                               <span class="dt">test_method =</span> <span class="st">'kfold'</span>,</a>
+<a class="sourceLine" id="cb51-4" data-line-number="4">                               <span class="dt">k =</span> <span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb51-5" data-line-number="5">                               <span class="dt">seed =</span> <span class="dv">123</span>,</a>
+<a class="sourceLine" id="cb51-6" data-line-number="6">                               <span class="dt">smooth =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>We can also return these in place.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">    hed_hpi &lt;-<span class="st"> </span><span class="kw">calcAccuracy</span>(<span class="dt">hpi_obj =</span> hed_hpi,</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2">                            <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb52-3" data-line-number="3">                            <span class="dt">test_method =</span> <span class="st">'kfold'</span>,</a>
+<a class="sourceLine" id="cb52-4" data-line-number="4">                            <span class="dt">k =</span> <span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb52-5" data-line-number="5">                            <span class="dt">seed =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb52-6" data-line-number="6">                            <span class="dt">pred_df =</span> rt_hpi<span class="op">$</span>data,</a>
+<a class="sourceLine" id="cb52-7" data-line-number="7">                            <span class="dt">in_place =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb52-8" data-line-number="8">                            <span class="dt">in_place_name =</span> <span class="st">'kf_accuracy'</span>)</a></code></pre></div>
+<p>A plotting method (<code>plot.hpiaccuracy()</code>) shows a number of diagnostics about the accuracy analysis. Because the plotting object here contains multiple plot objects, if you wish to save this plot to a named object, you need to add <code>return_plot = TRUE</code> to the argument list.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">  <span class="kw">plot</span>(hed_hpi<span class="op">$</span>index<span class="op">$</span>kf_accuracy)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+<div id="index-series" class="section level3">
+<h3>Index Series</h3>
+<p>Two other aspects or metrics of house price indexes are revision and forecast accuracy. Forecast accuracy refers to how well an index forecast captures future market movements. Revision refers to how much original index values change over time as new data is accumulated (new transactions occur). Both concepts are described more fully below. To calculate either of these metrics requires a series of indexes.</p>
+<p>A series of indexes is a collection of progressively longer indexes that are estimated over time, or estimated sequentially such that the knowledge of the future is withheld from the model. For example, imagine we have, as the example below does, 84 months (periods) of data. Since we are using a statistical modeling approach, let’s assume that we need at least 12 period of data (training period) to fit a model. We begin by creating an index for periods 1 through 12, assuming that we only have data from periods 1 through 12. Then we do 1 through 13, assuming we only have data from periods 1 through 13; on up to period 84. This represents an index series. The indexes in the series are identified by the number of the last period that they are estimating, index 12, index 13, etc.</p>
+<p>The <code>createSeries()</code> function will create these series. The <code>hpi_obj</code> argument must be a full <code>hpi</code> object (created with one of the index wrappers). <code>train_period</code> sets how many periods to use for initial training (length of the shortest period). The <code>max_period</code> argument (default is the entire length of existing index) will control the end period to estimate a series up to (defaults to the original length of the index in the <code>hpi</code> object.).</p>
+<p>The <code>createSeries()</code> function will return an object of class <code>serieshpi</code> (data plus a series of <code>hpi</code> objects).</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">   rt_series &lt;-<span class="st"> </span><span class="kw">createSeries</span>(<span class="dt">hpi_obj =</span> rt_hpi,</a>
+<a class="sourceLine" id="cb54-2" data-line-number="2">                             <span class="dt">train_period =</span> <span class="dv">24</span>,</a>
+<a class="sourceLine" id="cb54-3" data-line-number="3">                             <span class="dt">max_period =</span> <span class="dv">30</span>)</a></code></pre></div>
+<p>A series can be plotted with the <code>plot.serieshpi()</code> method.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">  <span class="kw">plot</span>(rt_series)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div id="series-analysis" class="section level4">
+<h4>Series Analysis</h4>
+<p>A wrapper function, <code>smoothSeries()</code> will smooth all <code>hpiindex</code> objects in a series. The smoothing will occur “in place” and a series object will be returned by the function.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">  rt_series &lt;-<span class="st"> </span><span class="kw">smoothSeries</span>(<span class="dt">series_obj =</span> rt_series,</a>
+<a class="sourceLine" id="cb56-2" data-line-number="2">                             <span class="dt">order =</span> <span class="dv">5</span>)</a></code></pre></div>
+<p>A wrapper function, <code>calcSeriesVolatility()</code> will calculate volatility for all <code>hpiindex</code> objects in a series. The calculations will occur “in place” and a series object will be returned by the function. Can be done on smoothed indexes as well (<code>smooth = TRUE</code>)</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">  rt_series &lt;-<span class="st"> </span><span class="kw">calcSeriesVolatility</span>(<span class="dt">series_obj =</span> rt_series,</a>
+<a class="sourceLine" id="cb57-2" data-line-number="2">                                    <span class="dt">window =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb57-3" data-line-number="3">                                    <span class="dt">smooth =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb57-4" data-line-number="4">  </a></code></pre></div>
+<p>A wrapper function, <code>calcSeriesAccuracy()</code> will calculate accuracy for all <code>hpiindex</code> objects in a series and return to an object of class <code>seriesaccuracy</code>. Smoothed indexes can be evaluated as well (<code>smooth = TRUE</code>)</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">  rt_sacc &lt;-<span class="st"> </span><span class="kw">calcSeriesAccuracy</span>(<span class="dt">series_obj =</span> rt_series,</a>
+<a class="sourceLine" id="cb58-2" data-line-number="2">                                <span class="dt">test_method =</span> <span class="st">'insample'</span>,</a>
+<a class="sourceLine" id="cb58-3" data-line-number="3">                                <span class="dt">test_type =</span> <span class="st">'rt'</span>)</a>
+<a class="sourceLine" id="cb58-4" data-line-number="4">  <span class="kw">class</span>(rt_sacc)</a>
+<a class="sourceLine" id="cb58-5" data-line-number="5">## [1] &quot;seriesaccuracy&quot; &quot;hpiaccuracy&quot;    &quot;data.frame&quot;</a></code></pre></div>
+<p>These calculations can occur “in place” and a series object will be returned by the function. Note that running this function on the “kfold” method may be computationally intense depending on your data size and index length. Unlike index accuracy calculations which are saved in the <code>hpiindex</code> object, series accuracy calculations are saved in the <code>serieshpi</code> object when done “in place”.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">  rt_series &lt;-<span class="st"> </span><span class="kw">calcSeriesAccuracy</span>(<span class="dt">series_obj =</span> rt_series,</a>
+<a class="sourceLine" id="cb59-2" data-line-number="2">                                  <span class="dt">test_method =</span> <span class="st">'kfold'</span>,</a>
+<a class="sourceLine" id="cb59-3" data-line-number="3">                                  <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb59-4" data-line-number="4">                                  <span class="dt">smooth =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb59-5" data-line-number="5">                                  <span class="dt">in_place=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<p>One thing to note about series accuracy is that the training data will be evaluated separated for each index in the series, meaning that there will be many prediction errors for each observation. By setting <code>summarize = TRUE</code>, the mean for each observation will be calculated.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">  series_acc_summ &lt;-<span class="st"> </span><span class="kw">calcSeriesAccuracy</span>(<span class="dt">series_obj =</span> rt_series,</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2">                                        <span class="dt">test_method =</span> <span class="st">'insample'</span>,</a>
+<a class="sourceLine" id="cb60-3" data-line-number="3">                                        <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb60-4" data-line-number="4">                                        <span class="dt">summarize =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb60-5" data-line-number="5">  <span class="kw">nrow</span>(series_acc_summ)</a>
+<a class="sourceLine" id="cb60-6" data-line-number="6">## [1] 35</a>
+<a class="sourceLine" id="cb60-7" data-line-number="7">  <span class="kw">nrow</span>(rt_series<span class="op">$</span>accuracy)</a>
+<a class="sourceLine" id="cb60-8" data-line-number="8">## [1] 189</a></code></pre></div>
+</div>
+<div id="forecast-accuracy" class="section level4">
+<h4>Forecast Accuracy</h4>
+<p>A final way to estimate accuracy is with a forecast test. In a forecast test, we use a series of indexes and continue to predict one period ahead and measure how well the predicted index does against repeated transactions in that period. In highly volatile or cyclical markets this is the most representative method of the answering the question: “how well does this index represent the near future?”</p>
+<p>As above, it can be used on the raw index values or the smoothed ones (<code>smooth = TRUE</code>). The forecast accuracy tests are saved in the <code>serieshpi</code> object.</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">  rt_series &lt;-<span class="st"> </span><span class="kw">calcSeriesAccuracy</span>(<span class="dt">series_obj =</span> rt_series,</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2">                                  <span class="dt">test_method =</span> <span class="st">'forecast'</span>,</a>
+<a class="sourceLine" id="cb61-3" data-line-number="3">                                  <span class="dt">test_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb61-4" data-line-number="4">                                  <span class="dt">smooth =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb61-5" data-line-number="5">                                  <span class="dt">in_place =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>We can plot the <code>seriesaccuracy</code> objects, which look nearly identical to <code>hpiaccuracy</code> objects.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1">  <span class="kw">plot</span>(rt_series<span class="op">$</span>accuracy_smooth)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="revision" class="section level4">
+<h4>Revision</h4>
+<p>As can be the case with house price indexes, the estimated index values move considerably as new data (transactions) are accumulated over time. We can measure the amount of this change, or ‘revision’ over time as a useful metric or property of the series or of the final index.</p>
+<p>Within the literature on house price indexes there is no standard or agreed upon metric to summarize revision. Here we do it two ways. First, at the period level where we calculate the average revision (change from period to period) for each period in the series of indexes. Obviously, the earlier period have a larger sample size (though they do have more time to be influenced by future transactions) than the latter periods are and, as such, are likely to be less volatile.</p>
+<p>The second calculation simply averages all revisions across all periods to provide a single value of the average and median revision for the index series.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb63-2" data-line-number="2">  <span class="co"># Return to a revision object</span></a>
+<a class="sourceLine" id="cb63-3" data-line-number="3">  rt_rev &lt;-<span class="st"> </span><span class="kw">calcRevision</span>(<span class="dt">series_obj =</span> rt_series)</a>
+<a class="sourceLine" id="cb63-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb63-5" data-line-number="5">  <span class="co"># Return in place (with smooth)</span></a>
+<a class="sourceLine" id="cb63-6" data-line-number="6">  rt_series &lt;-<span class="st"> </span><span class="kw">calcRevision</span>(<span class="dt">series_obj =</span> rt_series,</a>
+<a class="sourceLine" id="cb63-7" data-line-number="7">                            <span class="dt">in_place =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb63-8" data-line-number="8">                            <span class="dt">smooth =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb63-9" data-line-number="9">  <span class="kw">names</span>(rt_series)</a>
+<a class="sourceLine" id="cb63-10" data-line-number="10">## [1] &quot;data&quot;            &quot;hpis&quot;            &quot;accuracy_smooth&quot; &quot;revision_smooth&quot;</a></code></pre></div>
+<p>We can plot the revisions with the <code>plot.hpirevision()</code> method to show the average revision by time period. The `measure argument (default = <em>“median”</em>) determines whether median or mean revisions will be shown.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">  <span class="kw">plot</span>(rt_rev, <span class="dt">measure=</span><span class="st">'median'</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>More information on the class structures of the object created above can be found in the “Classes in hpiR” vignette in this package.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p> A small amount of data cleaning has gone into the creating the data, for more information on this process please contact the author.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Note that a second method using hedonic pricing models is being developed.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
