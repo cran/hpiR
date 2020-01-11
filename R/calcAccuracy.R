@@ -14,8 +14,10 @@
 #' the following fields:
 #' \describe{
 #'   \item{prop_id}{Property Identification number}
+#'   \item{price}{Transaction Price}
 #'   \item{pred_price}{Predicted price}
-#'   \item{pred_error}{(Prediction - Actual) / Actual}
+#'   \item{error}{(Prediction - Actual) / Actual}
+#'   \item{log_error}{log(prediction) - log(actual)}
 #'   \item{pred_period}{Period of the prediction}
 #' }
 #' @importFrom dplyr filter
@@ -122,6 +124,7 @@ calcAccuracy <- function(hpi_obj,
 
     accr_obj <- calcInSampleError(pred_df = pred_df,
                                   index = hpi_obj$index[[index_name]],
+                                  smooth = smooth,
                                    ...)
   }
 
@@ -129,6 +132,7 @@ calcAccuracy <- function(hpi_obj,
   if (test_method == 'kfold'){
     accr_obj <- calcKFoldError(hpi_obj = hpi_obj,
                                pred_df = pred_df,
+                               smooth = smooth,
                                 ...)
   }
 
@@ -271,9 +275,10 @@ calcSeriesAccuracy <- function(series_obj,
     # If summarizing
     if (summarize){
       accr_df <- accr_df %>%
-        dplyr::group_by(., .data$prop_id, .data$pred_period) %>%
+        dplyr::group_by(., .data$pair_id) %>%
         dplyr::summarize(., pred_price = mean(.data$pred_price),
-                            pred_error = mean(.data$pred_error),
+                            error = mean(.data$error),
+                            log_error = mean(.data$log_error),
                             series = 0) %>%
         dplyr::ungroup()
     }

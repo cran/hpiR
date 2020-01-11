@@ -25,9 +25,9 @@ The table below shows the basic information on the various **S3** classes used i
 
 <br>
 
-* **"series"** = objects refering to information relevant to the entire hpi series (a set of hpi collections)
-* **"hpi"** = objects refering to information relevant to the entire hpi collection
-* **"index"** = objects refering to information relevant only to the index itself
+* **"series"** = objects referring to information relevant to the entire hpi series (a set of hpi collections)
+* **"hpi"** = objects referring to information relevant to the entire hpi collection
+* **"index"** = objects referring to information relevant only to the index itself
 * **"rt"** or **"hed"** =  objects with information specific to a particular index approach (**"rt"** for repeat transaction and **"hed"** for hedonic model)^[Additional approaches will be added here in the future.]
     * Suffixes of these classes currently include **"data"** and **"model"**
 * **"plot"** = objects containing plot objects.  
@@ -36,7 +36,7 @@ The `hpi` collection object is the "core" unit of the `hpiR` package. The object
 
 The `serieshpi` object is a "super-unit" that contains multiple house price indexes within it.  Indexes within a series share the same data, modeling approach and parameters; they differ only in the length of the indexes.  Additionally there are two types of analyses that can only be applied to series: forecast accuracy (`calcForecastError()`) and revision (`calcRevision()`). Also note that in an `serieshpi` object the data objects are moved out of the `hpi` objects and into the `serieshpi` object to avoid duplication of data storage.
 
-The table below shows the various classes of objects used with `hpiR`, their type, what they inherit from, what function creates them and a short desription.  A tilde (**~**) infront of the inherits value signifies that some of the components of the object inherit from that class, but not all.   
+The table below shows the various classes of objects used with `hpiR`, their type, what they inherit from, what function creates them and a short description.  A tilde (**~**) in front of the inherits value signifies that some of the components of the object inherit from that class, but not all.   
 
 <br>
 
@@ -207,7 +207,8 @@ Results from modeling the data prior to creating indexes is stored in `hpimodel`
 
 ```{r create_hpimodel}
   
-  ex_hpimodel <- hpiModel(hpi_df = ex_rtdata,
+  ex_hpimodel <- hpiModel(model_type = 'rt',
+                          hpi_df = ex_rtdata,
                           estimator = 'base',
                           log_dep = TRUE)
 
@@ -245,7 +246,8 @@ Below we see an example of a `model_obj` from a repeat transactions model. This 
 We also show an example of a `model_obj` from a hedonic price method, again similar to an `lm(...)` output. 
 
 ```{r create_hmodel_obj}
-  ex_hedmodel <- hpiModel(hpi_df = ex_heddata,
+  ex_hedmodel <- hpiModel(model_type = 'hed',
+                          hpi_df = ex_heddata,
                           estimator = 'base',
                           dep_var = 'price',
                           ind_var = c('tot_sf', 'beds', 'baths'),

@@ -12,17 +12,17 @@
 
 <meta name="author" content="Andy Krause" />
 
-<meta name="date" content="2018-08-05" />
+<meta name="date" content="2020-01-10" />
 
 <title>Classes in hpiR</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -35,13 +35,11 @@ code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
+  { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -83,7 +81,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -271,6 +291,9 @@ code > span.al { color: #ff0000; font-weight: bold; }
 code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
+
+
+
 </head>
 
 <body>
@@ -279,8 +302,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 <h1 class="title toc-ignore">Classes in <code>hpiR</code></h1>
-<h4 class="author"><em>Andy Krause</em></h4>
-<h4 class="date"><em>2018-08-05</em></h4>
+<h4 class="author">Andy Krause</h4>
+<h4 class="date">2020-01-10</h4>
 
 
 
@@ -293,9 +316,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>The table below shows the basic information on the various <strong>S3</strong> classes used in the package. The naming convention of classes is such that prefixes indicate the domain (or the type) of the information contained in the object. The major domains are:</p>
 <p><br></p>
 <ul>
-<li><strong>“series”</strong> = objects refering to information relevant to the entire hpi series (a set of hpi collections)</li>
-<li><strong>“hpi”</strong> = objects refering to information relevant to the entire hpi collection</li>
-<li><strong>“index”</strong> = objects refering to information relevant only to the index itself</li>
+<li><strong>“series”</strong> = objects referring to information relevant to the entire hpi series (a set of hpi collections)</li>
+<li><strong>“hpi”</strong> = objects referring to information relevant to the entire hpi collection</li>
+<li><strong>“index”</strong> = objects referring to information relevant only to the index itself</li>
 <li><strong>“rt”</strong> or <strong>“hed”</strong> = objects with information specific to a particular index approach (<strong>“rt”</strong> for repeat transaction and <strong>“hed”</strong> for hedonic model)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
 <ul>
 <li>Suffixes of these classes currently include <strong>“data”</strong> and <strong>“model”</strong></li>
@@ -304,7 +327,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </ul>
 <p>The <code>hpi</code> collection object is the “core” unit of the <code>hpiR</code> package. The object will contain all the information, temporary objects (data, models, etc.) and analysis about a single house price index.</p>
 <p>The <code>serieshpi</code> object is a “super-unit” that contains multiple house price indexes within it. Indexes within a series share the same data, modeling approach and parameters; they differ only in the length of the indexes. Additionally there are two types of analyses that can only be applied to series: forecast accuracy (<code>calcForecastError()</code>) and revision (<code>calcRevision()</code>). Also note that in an <code>serieshpi</code> object the data objects are moved out of the <code>hpi</code> objects and into the <code>serieshpi</code> object to avoid duplication of data storage.</p>
-<p>The table below shows the various classes of objects used with <code>hpiR</code>, their type, what they inherit from, what function creates them and a short desription. A tilde (<strong>~</strong>) infront of the inherits value signifies that some of the components of the object inherit from that class, but not all.</p>
+<p>The table below shows the various classes of objects used with <code>hpiR</code>, their type, what they inherit from, what function creates them and a short description. A tilde (<strong>~</strong>) in front of the inherits value signifies that some of the components of the object inherit from that class, but not all.</p>
 <p><br></p>
 <table>
 <colgroup>
@@ -627,9 +650,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h3>Modeling</h3>
 <p>Results from modeling the data prior to creating indexes is stored in <code>hpimodel</code> objects. These objects contain eight standard slots, shown below. The slots are standardized across approaches, with the exception of the <code>model_obj</code> slot which will contain an object that is specific to the approach being used to estimate the index.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">  </a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  ex_hpimodel &lt;-<span class="st"> </span><span class="kw">hpiModel</span>(<span class="dt">hpi_df =</span> ex_rtdata,</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">                          <span class="dt">estimator =</span> <span class="st">'base'</span>,</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">                          <span class="dt">log_dep =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb12-2" data-line-number="2">  ex_hpimodel &lt;-<span class="st"> </span><span class="kw">hpiModel</span>(<span class="dt">model_type =</span> <span class="st">'rt'</span>,</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">                          <span class="dt">hpi_df =</span> ex_rtdata,</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">                          <span class="dt">estimator =</span> <span class="st">'base'</span>,</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">                          <span class="dt">log_dep =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2">   <span class="kw">class</span>(ex_hpimodel)</a></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"></a>
@@ -639,11 +663,12 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">  <span class="kw">class</span>(ex_rtmodel)</a></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">  <span class="kw">str</span>(ex_rtmodel, <span class="dt">max.level=</span><span class="dv">1</span>, <span class="dt">give.attr=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <p>We also show an example of a <code>model_obj</code> from a hedonic price method, again similar to an <code>lm(...)</code> output.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">  ex_hedmodel &lt;-<span class="st"> </span><span class="kw">hpiModel</span>(<span class="dt">hpi_df =</span> ex_heddata,</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">                          <span class="dt">estimator =</span> <span class="st">'base'</span>,</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">                          <span class="dt">dep_var =</span> <span class="st">'price'</span>,</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">                          <span class="dt">ind_var =</span> <span class="kw">c</span>(<span class="st">'tot_sf'</span>, <span class="st">'beds'</span>, <span class="st">'baths'</span>),</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">                          <span class="dt">log_dep =</span> <span class="ot">TRUE</span>)[[<span class="st">&quot;model_obj&quot;</span>]]</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">  ex_hedmodel &lt;-<span class="st"> </span><span class="kw">hpiModel</span>(<span class="dt">model_type =</span> <span class="st">'hed'</span>,</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">                          <span class="dt">hpi_df =</span> ex_heddata,</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">                          <span class="dt">estimator =</span> <span class="st">'base'</span>,</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">                          <span class="dt">dep_var =</span> <span class="st">'price'</span>,</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5">                          <span class="dt">ind_var =</span> <span class="kw">c</span>(<span class="st">'tot_sf'</span>, <span class="st">'beds'</span>, <span class="st">'baths'</span>),</a>
+<a class="sourceLine" id="cb18-6" data-line-number="6">                          <span class="dt">log_dep =</span> <span class="ot">TRUE</span>)[[<span class="st">&quot;model_obj&quot;</span>]]</a></code></pre></div>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">  <span class="kw">class</span>(ex_hedmodel)</a></code></pre></div>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">    <span class="kw">str</span>(ex_hedmodel, <span class="dt">max.level=</span><span class="dv">1</span>, <span class="dt">give.attr=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 </div>

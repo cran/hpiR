@@ -11,9 +11,11 @@
 #' @return object of class `hpiaccuracy` inheriting from class `data.frame` containing the
 #' following fields:
 #' \describe{
-#'   \item{prop_id}{Property Identification number}
+#'   \item{pair_id}{Unique Pair ID}
+#'   \item{price}{Transaction Price}
 #'   \item{pred_price}{Predicted price}
-#'   \item{pred_error}{(Prediction - Actual) / Actual}
+#'   \item{error}{(Prediction - Actual) / Actual}
+#'   \item{log_error}{log(prediction) - log(actual)}
 #'   \item{pred_period}{Period of the prediction}
 #' }
 #' @importFrom purrr map map2
@@ -112,8 +114,11 @@ calcKFoldError <- function(hpi_obj,
   # Train k models
   k_model <- purrr::map(.x=k_train,
                         .f=hpiModel,
-                        hed_spec=hpi_obj$model$mod_spec,
-                        log_dep = hpi_obj$model$log_dep)
+                        mod_spec=hpi_obj$model$mod_spec,
+                        log_dep = hpi_obj$model$log_dep,
+                        model_type = hpi_obj$model$approach,
+                        estimator = hpi_obj$model$estimator,
+                        ...)
 
   # Create K indexes (just extract index)
   k_index <- purrr::map(.x=k_model,
@@ -140,7 +145,7 @@ calcKFoldError <- function(hpi_obj,
 
   # Bind results together and return
   accr_df <- dplyr::bind_rows(k_error) %>%
-    dplyr::filter(!is.na(.data$prop_id))
+    dplyr::filter(!is.na(.data$pair_id))
 
   class(accr_df) <- unique(c('hpiaccuracy', class(accr_df)))
   attr(accr_df, 'test_method') <- 'kfold'

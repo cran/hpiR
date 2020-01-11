@@ -1,13 +1,14 @@
-# hpiR 0.2.0
+# hpiR 0.3.0
 
 ## Major Changes
 
-This is the initial release, there are no changes
+Added Random Forest + Partial Dependency Appraoch to creating house price indexes
+Added Log Error Calculations to all accuracy evaluations
 
 ## Bug Fixes
 
-This is the initial release, there are no bug fixes
+Fixed failing robust model with all 0 coefficients
 
 ## Minor Changes
 
-This is the initial release, there are no changes
+Added 'pair_id' to accuracy analysis outputs

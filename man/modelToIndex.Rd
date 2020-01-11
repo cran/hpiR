@@ -4,7 +4,8 @@
 \alias{modelToIndex}
 \title{Convert model results into a house price index}
 \usage{
-modelToIndex(model_obj, max_period = max(model_obj$coefficients$time), ...)
+modelToIndex(model_obj, max_period = max(model_obj$coefficients$time),
+  ...)
 }
 \arguments{
 \item{model_obj}{Model results object}
@@ -38,7 +39,8 @@ Converts model results to standardized index objects
                           date = 'sale_date')
 
  # Create model object
- hpi_model <- hpiModel(hpi_df = rt_data,
+ hpi_model <- hpiModel(model_type = 'rt',
+                       hpi_df = rt_data,
                        estimator = 'base',
                        log_dep = TRUE)
 

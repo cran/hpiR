@@ -88,7 +88,8 @@
 
 ## ----create_hpimodel-----------------------------------------------------
 #  
-#    ex_hpimodel <- hpiModel(hpi_df = ex_rtdata,
+#    ex_hpimodel <- hpiModel(model_type = 'rt',
+#                            hpi_df = ex_rtdata,
 #                            estimator = 'base',
 #                            log_dep = TRUE)
 #  
@@ -116,7 +117,8 @@
 #  
 
 ## ----create_hmodel_obj---------------------------------------------------
-#    ex_hedmodel <- hpiModel(hpi_df = ex_heddata,
+#    ex_hedmodel <- hpiModel(model_type = 'hed',
+#                            hpi_df = ex_heddata,
 #                            estimator = 'base',
 #                            dep_var = 'price',
 #                            ind_var = c('tot_sf', 'beds', 'baths'),

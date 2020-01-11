@@ -13,9 +13,7 @@
 
 ## ----load_data-----------------------------------------------------------
   data(seattle_sales)
-
   data(ex_sales)
-
 
 ## ----create_hpidata_obj--------------------------------------------------
   sales_hdf <- dateToPeriod(trans_df = ex_sales,
@@ -24,20 +22,18 @@
 
 
 ## ----expand_time---------------------------------------------------------
-  sales_hdf <- dateToPeriod(trans_df = ex_sales,
+  salesx_hdf <- dateToPeriod(trans_df = ex_sales,
                             date = 'sale_date',
                             periodicity = 'monthly',
                             min_date = as.Date('2009-12-01'),
                             max_date = as.Date('2016-12-31'))
 
-
 ## ----adj_move------------------------------------------------------------
-  sales_hdf <- dateToPeriod(trans_df = ex_sales,
+  salesx_hdf <- dateToPeriod(trans_df = ex_sales,
                             date = 'sale_date',
                             periodicity = 'monthly',
                             min_date = as.Date('2010-12-01'),
                             max_date = as.Date('2015-12-31'))
-
 
 ## ----adj_clip------------------------------------------------------------
   sales_hdf_clip <- dateToPeriod(trans_df = ex_sales,
@@ -47,17 +43,15 @@
                                  max_date = as.Date('2015-12-31'),
                                  adj_type = 'clip')
 
-
 ## ----period_table_attr---------------------------------------------------
   head(attr(sales_hdf, 'period_table'))
-
 
 ## ----create_rtdata-------------------------------------------------------
   sales_rtdf <- rtCreateTrans(trans_df = sales_hdf,
                               prop_id = 'pinx',
                               trans_id = 'sale_id',
-                              price = 'sale_price')
-                          
+                              price = 'sale_price',
+                              min_period_dist = 12)
 
 ## ----rtdata_table, echo=FALSE--------------------------------------------
 
@@ -78,14 +72,16 @@
 
 
 ## ----create_rtmodel------------------------------------------------------
-  rt_model <- hpiModel(hpi_df = sales_rtdf,
+  rt_model <- hpiModel(model_type = 'rt',
+                       hpi_df = sales_rtdf,
                        estimator = 'base',
                        log_dep = TRUE)
 
 
 
 ## ----full_rtmodel--------------------------------------------------------
-  rt_full <- hpiModel(hpi_df = sales_rtdf,
+  rt_full <- hpiModel(model_type = 'rt',
+                      hpi_df = sales_rtdf,
                       estimator = 'base',
                       log_dep = TRUE,
                       trim_model = FALSE)
@@ -213,7 +209,8 @@
 
 
 ## ----hedmodel_1----------------------------------------------------------
-  hed_model <- hpiModel(hpi_df = sales_hhdf,
+  hed_model <- hpiModel(model_type = 'hed',
+                        hpi_df = sales_hhdf,
                         estimator = 'base',
                         dep_var = 'price',
                         ind_var = c('tot_sf', 'beds', 'baths'),
@@ -223,14 +220,16 @@
 ## ----hedmodel_2----------------------------------------------------------
   model_spec <- as.formula('log(price) ~ as.factor(baths) + tot_sf')
   
-  hed_model <- hpiModel(hpi_df = sales_hhdf,
+  hed_model <- hpiModel(model_type = 'hed',
+                        hpi_df = sales_hhdf,
                         estimator = 'base',
-                        hed_spec = model_spec,
+                        mod_spec = model_spec,
                         log_dep = TRUE)
 
 
 ## ----hedmodel_rob--------------------------------------------------------
-  hed_model_rob <- hpiModel(hpi_df = sales_hhdf,
+  hed_model_rob <- hpiModel(model_type = 'hed',
+                            hpi_df = sales_hhdf,
                             estimator = 'robust',
                             dep_var = 'price',
                             ind_var = c('tot_sf', 'beds', 'baths'),
@@ -238,7 +237,8 @@
 
 
 ## ----hedmodel_wgt--------------------------------------------------------
-  hed_model_wgt <- hpiModel(hpi_df = sales_hhdf,
+  hed_model_wgt <- hpiModel(model_type = 'hed',
+                            hpi_df = sales_hhdf,
                             estimator = 'weighted',
                             dep_var = 'price',
                             ind_var = c('tot_sf', 'beds', 'baths'),
@@ -536,4 +536,21 @@
 ## ----plot_rtrev, fig.width=7, fig.height=3.5-----------------------------
   plot(rt_rev, measure='median')
 
+
+## ----rf_index------------------------------------------------------------
+   rf_index <- rfIndex(trans_df = sales_hhdf,
+                       date = 'sale_date',
+                       price = 'sale_price',
+                       trans_id = 'sale_id',
+                       prop_id = 'pinx',
+                       estimator = 'pdp',
+                       periodicity = 'monthly',
+                       dep_var = 'price',
+                       ind_var = c('tot_sf', 'beds', 'baths'),
+                       smooth = FALSE,
+                       sim_ids = 1:10,
+                       ntrees = 16)
+
+## ----plot_rf_index, fig.width=7, fig.height=3.5--------------------------
+  plot(rf_index)
 

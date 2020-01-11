@@ -11,8 +11,10 @@
 #' the following fields:
 #' \describe{
 #'   \item{prop_id}{Property Identification number}
+#'   \item{price}{Transaction Price}
 #'   \item{pred_price}{Predicted price}
-#'   \item{pred_error}{(Prediction - Actual) / Actual}
+#'   \item{error}{(Prediction - Actual) / Actual}
+#'   \item{log_error}{log(prediction) - log(actual)}
 #'   \item{pred_period}{Period of the prediction}
 #'   \item{series}{Series position from which the prediction was generated}
 #' }
@@ -35,8 +37,7 @@
 #'  # Create Index
 #'  hed_index <- hedIndex(trans_df = ex_sales,
 #'                        periodicity = 'monthly',
-#'                        min_date = '2010-06-01',
-#'                        max_date = '2015-11-30',
+#'                        max_date = '2011-12-31',
 #'                        adj_type = 'clip',
 #'                        date = 'sale_date',
 #'                        price = 'sale_price',
@@ -45,7 +46,7 @@
 #'                        estimator = 'robust',
 #'                        log_dep = TRUE,
 #'                        trim_model = TRUE,
-#'                        max_period = 48,
+#'                        max_period = 24,
 #'                        dep_var = 'price',
 #'                        ind_var = c('tot_sf', 'beds', 'baths'),
 #'                        smooth = FALSE)
@@ -58,10 +59,12 @@
 #'  # Create Prediction data
 #'  rt_data <- rtCreateTrans(trans_df = ex_sales,
 #'                           prop_id = 'pinx',
+#'                           max_date = '2011-12-31',
 #'                           trans_id = 'sale_id',
 #'                           price = 'sale_price',
 #'                           periodicity = 'monthly',
-#'                           date = 'sale_date')
+#'                           date = 'sale_date',
+#'                           min_period_dist = 12)
 #'
 #'
 #'  # Calculate forecast accuracty

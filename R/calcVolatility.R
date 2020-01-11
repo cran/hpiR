@@ -67,10 +67,7 @@ calcVolatility <- function(index,
     } else {
       index <- index$index$smooth
       # Check to make sure a NULL wasn't given by smooth
-      if (is.null(index)){
-        message ('No smoothed index present. Please set "smooth = FALSE"')
-        stop()
-      }
+      if (is.null(index)) stop('No smoothed index present. Please set "smooth = FALSE"')
     }
   }
 
@@ -80,10 +77,7 @@ calcVolatility <- function(index,
     } else {
       index <- index$smooth
       # Check to make sure a NULL wasn't given by smooth
-      if (is.null(index)){
-        message ('No smoothed index present. Please set "smooth = FALSE"')
-        stop()
-      }
+      if (is.null(index)) stop('No smoothed index present. Please set "smooth = FALSE"')
     }
   }
 
@@ -148,6 +142,7 @@ calcVolatility <- function(index,
 #' @param series_obj Series object to be calculated
 #' @param window default = 3; Rolling periods over which to calculate the volatility
 #' @param smooth default = FALSE; Also calculate volatilities for smoothed indexes
+#' @param in_place_name name if saving in place
 #' @param ... Additional Arguments
 #' @return `serieshpi` object
 #' @importFrom purrr map
@@ -188,13 +183,11 @@ calcVolatility <- function(index,
 calcSeriesVolatility <- function(series_obj,
                                  window = 3,
                                  smooth = FALSE,
+                                 in_place_name = 'volatility',
                                  ...){
 
   # Bad series_obj
-  if (!'serieshpi' %in% class(series_obj)){
-    message('The "series_obj" must be of class "serieshpi"')
-    stop()
-  }
+  if (!'serieshpi' %in% class(series_obj)) stop('The "series_obj" must be of class "serieshpi"')
 
   # Apply smoothing to all indexes
   s_hpis <- purrr::map(.x=series_obj$hpis,
@@ -222,7 +215,7 @@ calcSeriesVolatility <- function(series_obj,
   }
 
   # Add to series obj
-  series_obj$hpis <- s_hpis
+  series_obj[[in_place_name]] <- s_hpis
 
   # Return standard
   series_obj
