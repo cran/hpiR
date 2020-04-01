@@ -12,11 +12,13 @@ status](https://codecov.io/gh/andykrause/hpiR/branch/master/graph/badge.svg)](ht
 
 # hpiR
 
+![](/images/hpiR.png)
+
 This package intends to simplify and standardize the creation of house
-price indexes in R. It also provides a framework for judging the
-‘quality’ of a given index by testing for predictive accuracy,
-volatility and revision. By providing these metrics various index
-methods (and estimators) can be accurately compared against each other.
+price indexes in R. It also provides a framework for judging the quality
+of a given index by testing for predictive accuracy, volatility and
+revision. By providing these metrics various index methods (and
+estimators) can be accurately compared against each other.
 
 While there are a (ever-increasing) variety of methods and models to use
 in house price index creation, this initial version (0.3.0) focuses on
